@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:unimate/models/user_model.dart';
-import 'package:unimate/pages/complete_profile.dart';
+import 'package:unimate/pages/edit_profile.dart';
 import 'package:unimate/pages/home_page.dart';
 
 class UserProfile extends StatefulWidget {
@@ -52,19 +52,69 @@ class _UserProfileState extends State<UserProfile> {
               color: Colors.pink.shade900,
             ),
             child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 0.0, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CircleAvatar(
-                    radius: 35,
-                    child: const CircularProgressIndicator(
-                      color: Colors.blueGrey,
+                  CupertinoButton(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            elevation: 1,
+                            backgroundColor: Colors.white,
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                CircleAvatar(
+                                  radius: 120,
+                                  child: const CircularProgressIndicator(
+                                    color: Colors.blueGrey,
+                                  ),
+                                  backgroundColor: Colors.transparent,
+                                  foregroundImage: NetworkImage(
+                                      widget.userModel.profilePic.toString()),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: TextButton(
+                                      child: const Text(
+                                        "Change profile",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) {
+                                              return EditProfile(
+                                                  userModel: widget.userModel,
+                                                  firebaseUser:
+                                                      widget.firebaseUser);
+                                            },
+                                          ),
+                                        );
+                                      }),
+                                )
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    child: CircleAvatar(
+                      radius: 35,
+                      child: const CircularProgressIndicator(
+                        color: Colors.blueGrey,
+                      ),
+                      backgroundColor: Colors.transparent,
+                      foregroundImage:
+                          NetworkImage(widget.userModel.profilePic.toString()),
                     ),
-                    backgroundColor: Colors.transparent,
-                    foregroundImage:
-                        NetworkImage(widget.userModel.profilePic.toString()),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -94,7 +144,7 @@ class _UserProfileState extends State<UserProfile> {
                             context,
                             MaterialPageRoute(
                               builder: (context) {
-                                return CompleteProfile(
+                                return EditProfile(
                                     userModel: widget.userModel,
                                     firebaseUser: widget.firebaseUser);
                               },
@@ -134,27 +184,27 @@ class _UserProfileState extends State<UserProfile> {
                             style: TextStyle(
                               fontSize: 35,
                               fontWeight: FontWeight.bold,
-                              color: Colors.pink.shade900,
+                              color: Colors.pink[900],
                             ),
                           ),
                         ],
                       ),
-                      Row(
-                        children: [
-                          const SizedBox(
-                            width: 2,
+                      Row(children: [
+                        const SizedBox(
+                          width: 2,
+                        ),
+                        Text(
+                          widget.userModel.email.toString(),
+                          maxLines: 1,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            color: Colors.blueGrey,
                           ),
-                          Text(
-                            widget.userModel.email.toString(),
-                            maxLines: 1,
-                            style: const TextStyle(
-                              fontSize: 18,
-                              color: Colors.blueGrey,
-                            ),
-                          ),
-                        ]
-                      ),
-                      
+                        ),
+                      ]),
+                      const SizedBox(
+                        height: 10,
+                      )
                     ],
                   ),
                 ),
@@ -164,9 +214,7 @@ class _UserProfileState extends State<UserProfile> {
                     borderRadius: BorderRadius.circular(10),
                     color: Colors.pink.shade900,
                   ),
-                  ),
-                
-                
+                ),
               ],
             ),
           ),

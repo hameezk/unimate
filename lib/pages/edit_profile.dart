@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -10,19 +9,19 @@ import 'package:image_picker/image_picker.dart';
 import 'package:unimate/models/user_model.dart';
 import 'package:unimate/pages/home_page.dart';
 
-class CompleteProfile extends StatefulWidget {
+class EditProfile extends StatefulWidget {
   final UserModel userModel;
   final User firebaseUser;
 
-  const CompleteProfile(
+  const EditProfile(
       {Key? key, required this.userModel, required this.firebaseUser})
       : super(key: key);
 
   @override
-  _CompleteProfileState createState() => _CompleteProfileState();
+  _EditProfileState createState() => _EditProfileState();
 }
 
-class _CompleteProfileState extends State<CompleteProfile> {
+class _EditProfileState extends State<EditProfile> {
   File? imageFile;
 
   TextEditingController fullNameController = TextEditingController();
@@ -39,7 +38,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
     File? croppedImage = await ImageCropper.cropImage(
       sourcePath: file.path,
       aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
-      compressQuality: 15,
+      compressQuality: 10,
     );
     if (croppedImage != null) {
       setState(() {
@@ -142,7 +141,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
             content: Text("Profile Updated"),
           ),
         );
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) {
@@ -161,10 +160,10 @@ class _CompleteProfileState extends State<CompleteProfile> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.pink[900],
         centerTitle: true,
+        backgroundColor: Colors.pink[900],
         title: const Text(
-          "Complete Profile",
+          "Edit Profile",
         ),
       ),
       body: SingleChildScrollView(
@@ -176,7 +175,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
               },
               child: CircleAvatar(
                 backgroundColor: Colors.blueGrey,
-                foregroundColor: Colors.pink[900],
+                foregroundColor: Colors.blueAccent,
                 radius: 60,
                 backgroundImage:
                     (imageFile != null) ? FileImage(imageFile!) : null,
@@ -196,14 +195,16 @@ class _CompleteProfileState extends State<CompleteProfile> {
                   children: [
                     TextField(
                       controller: fullNameController,
+                      
                       decoration: const InputDecoration(
                           labelText: "Full name:", hintText: "Enter full name"),
                     ),
                     TextField(
-                      controller: studentIDController,
+                      controller: studentIDController, 
                       decoration: const InputDecoration(
                           labelText: "Student ID:",
                           hintText: "Enter student ID:"),
+                          
                     ),
                   ],
                 ),

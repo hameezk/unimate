@@ -4,7 +4,6 @@ import 'package:unimate/models/user_model.dart';
 import 'package:unimate/pages/login_page.dart';
 import 'package:unimate/pages/user_profile.dart';
 
-
 class HomePage extends StatefulWidget {
   final UserModel userModel;
   final User firebaseUser;
@@ -21,14 +20,14 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: Colors.pink[900],
         automaticallyImplyLeading: false,
         centerTitle: false,
-        title: const Text("TAILORME"),
+        title: const Text("UNIMATE"),
         actions: [
           IconButton(
             onPressed: () async {
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) {
                   return UserProfile(
@@ -55,7 +54,14 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: Center(
-        child: Text("Welcome ${widget.userModel.fullName}"),
+        child: Text(
+          "Welcome ${widget.userModel.fullName}",
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.pink[900],
+          ),
+        ),
       ),
     );
   }
