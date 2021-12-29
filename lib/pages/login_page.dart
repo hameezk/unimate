@@ -2,11 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:unimate/models/user_model.dart';
 import 'package:unimate/pages/home_page.dart';
 import 'package:unimate/pages/signup_page.dart';
-
-
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -89,16 +88,23 @@ class _LoginPageState extends State<LoginPage> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  const Text(
-                    "UNIMATE",
-                    style: TextStyle(
-                      color: Colors.blueGrey,
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  Container(
+                    height: 350,
+                    decoration: const BoxDecoration(
+                        image: DecorationImage(
+                            image: NetworkImage(
+                                "https://firebasestorage.googleapis.com/v0/b/flutter-chatapp-6e830.appspot.com/o/profilepictures%2Flogo10_16_173615.png?alt=media&token=60307211-c332-4c67-8883-38e4dd5428f2"))),
                   ),
+                  // const Text(
+                  //   "UNIMATE",
+                  //   style: TextStyle(
+                  //     color: Colors.blueGrey,
+                  //     fontSize: 40,
+                  //     fontWeight: FontWeight.bold,
+                  //   ),
+                  // ),
                   const SizedBox(
-                    height: 100,
+                    height: 5,
                   ),
                   TextField(
                     controller: emailController,

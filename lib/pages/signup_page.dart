@@ -106,16 +106,18 @@ class _SignupPageState extends State<SignupPage> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  const Text(
-                    "UNIMATE",
-                    style: TextStyle(
-                      color: Colors.blueGrey,
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold,
+                  Container(
+                    height: 350,
+                    child: const Center(
+                      child: CircularProgressIndicator(),
                     ),
+                    decoration: const BoxDecoration(
+                        image: DecorationImage(
+                            image: NetworkImage(
+                                "https://firebasestorage.googleapis.com/v0/b/flutter-chatapp-6e830.appspot.com/o/profilepictures%2Flogo10_16_173615.png?alt=media&token=60307211-c332-4c67-8883-38e4dd5428f2"))),
                   ),
                   const SizedBox(
-                    height: 100,
+                    height: 0,
                   ),
                   TextField(
                     controller: emailController,

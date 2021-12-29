@@ -63,7 +63,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              ListTile(
+              ListTile( 
                 onTap: () {
                   Navigator.pop(context);
                   selectImage(ImageSource.gallery);
