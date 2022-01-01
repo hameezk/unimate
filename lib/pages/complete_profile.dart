@@ -26,7 +26,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
   File? imageFile;
 
   TextEditingController fullNameController = TextEditingController();
-  TextEditingController studentIDController = TextEditingController();
+  TextEditingController idDesgController = TextEditingController();
 
   void selectImage(ImageSource source) async {
     XFile? selectedImage = await ImagePicker().pickImage(source: source);
@@ -98,9 +98,9 @@ class _CompleteProfileState extends State<CompleteProfile> {
 
   void checkValues() {
     String fullName = fullNameController.text.trim();
-    String studentID = studentIDController.text.trim();
+    String idDesg = idDesgController.text.trim();
 
-    if (fullName.isEmpty || imageFile == override || studentID.isEmpty) {
+    if (fullName.isEmpty || imageFile == override || idDesg.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.blueGrey,
@@ -123,11 +123,11 @@ class _CompleteProfileState extends State<CompleteProfile> {
 
     String imageUrl = await snapshot.ref.getDownloadURL();
     String fullname = fullNameController.text.trim();
-    String studentID = studentIDController.text.trim();
+    String idDesg = idDesgController.text.trim();
 
     widget.userModel.fullName = fullname;
     widget.userModel.profilePic = imageUrl;
-    widget.userModel.studentID = studentID;
+    widget.userModel.idDesg = idDesg;
 
     await FirebaseFirestore.instance
         .collection("users")
@@ -142,7 +142,8 @@ class _CompleteProfileState extends State<CompleteProfile> {
             content: Text("Profile Updated"),
           ),
         );
-        Navigator.push(
+        Navigator.popUntil(context, (route) => route.isFirst);
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) {
@@ -199,11 +200,16 @@ class _CompleteProfileState extends State<CompleteProfile> {
                       decoration: const InputDecoration(
                           labelText: "Full name:", hintText: "Enter full name"),
                     ),
-                    TextField(
-                      controller: studentIDController,
+                    (widget.userModel.role=="Student")?TextField(
+                      controller: idDesgController,
                       decoration: const InputDecoration(
                           labelText: "Student ID:",
                           hintText: "Enter student ID:"),
+                    ):TextField(
+                      controller: idDesgController,
+                      decoration: const InputDecoration(
+                          labelText: "Designation:",
+                          hintText: "Enter Designation:"),
                     ),
                   ],
                 ),

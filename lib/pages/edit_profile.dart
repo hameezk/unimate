@@ -25,7 +25,7 @@ class _EditProfileState extends State<EditProfile> {
   File? imageFile;
 
   TextEditingController fullNameController = TextEditingController();
-  TextEditingController studentIDController = TextEditingController();
+  TextEditingController idDesgController = TextEditingController();
 
   void selectImage(ImageSource source) async {
     XFile? selectedImage = await ImagePicker().pickImage(source: source);
@@ -97,9 +97,9 @@ class _EditProfileState extends State<EditProfile> {
 
   void checkValues() {
     String fullName = fullNameController.text.trim();
-    String studentID = studentIDController.text.trim();
+    String idDesg = idDesgController.text.trim();
 
-    if (fullName.isEmpty || imageFile == override || studentID.isEmpty) {
+    if (fullName.isEmpty || imageFile == override || idDesg.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.blueGrey,
@@ -122,11 +122,11 @@ class _EditProfileState extends State<EditProfile> {
 
     String imageUrl = await snapshot.ref.getDownloadURL();
     String fullname = fullNameController.text.trim();
-    String studentID = studentIDController.text.trim();
+    String idDesg = idDesgController.text.trim();
 
     widget.userModel.fullName = fullname;
     widget.userModel.profilePic = imageUrl;
-    widget.userModel.studentID = studentID;
+    widget.userModel.idDesg = idDesg;
 
     await FirebaseFirestore.instance
         .collection("users")
@@ -200,7 +200,7 @@ class _EditProfileState extends State<EditProfile> {
                           labelText: "Full name:", hintText: "Enter full name"),
                     ),
                     TextField(
-                      controller: studentIDController, 
+                      controller: idDesgController, 
                       decoration: const InputDecoration(
                           labelText: "Student ID:",
                           hintText: "Enter student ID:"),

@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:unimate/models/user_model.dart';
 import 'package:unimate/pages/complete_profile.dart';
-import 'package:unimate/pages/login_page.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
@@ -14,9 +13,20 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
+  List<String> roles = ["Student", "Instructor", "Admin"];
+  String? role;
+
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController cPasswordController = TextEditingController();
+
+  DropdownMenuItem<String> buildMenuItem(String item) => DropdownMenuItem(
+        value: item,
+        child: Text(
+          item,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+      );
 
   void checkValues() {
     String email = emailController.text.trim();
@@ -64,10 +74,12 @@ class _SignupPageState extends State<SignupPage> {
       String uid = credentials.user!.uid;
       UserModel newUser = UserModel(
         uid: uid,
+        role: role,
         email: email,
         fullName: "",
         profilePic: "",
-        studentID: "",
+        idDesg: "",
+        status: "",
       );
       await FirebaseFirestore.instance
           .collection("users")
@@ -82,6 +94,7 @@ class _SignupPageState extends State<SignupPage> {
               content: Text("New user created!"),
             ),
           );
+
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -106,18 +119,43 @@ class _SignupPageState extends State<SignupPage> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Container(
-                    height: 350,
-                    child: const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                    decoration: const BoxDecoration(
-                        image: DecorationImage(
-                            image: NetworkImage(
-                                "https://firebasestorage.googleapis.com/v0/b/flutter-chatapp-6e830.appspot.com/o/profilepictures%2Flogo10_16_173615.png?alt=media&token=60307211-c332-4c67-8883-38e4dd5428f2"))),
+                  Text(
+                    "Unimate",
+                    style: TextStyle(
+                        color: Colors.indigo[300],
+                        fontSize: 50,
+                        fontWeight: FontWeight.w700),
+                  ),
+                  Text(
+                    "Signup",
+                    style: TextStyle(
+                        color: Colors.indigo[300],
+                        fontSize: 20,
+                        fontWeight: FontWeight.w400),
                   ),
                   const SizedBox(
-                    height: 0,
+                    height: 50,
+                  ),
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          isExpanded: true,
+                          hint: const Text("Signup for:"),
+                          value: role,
+                          items: roles.map(buildMenuItem).toList(),
+                          onChanged: (value) => setState(
+                            () {
+                              role = value;
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
                   ),
                   TextField(
                     controller: emailController,
@@ -163,27 +201,7 @@ class _SignupPageState extends State<SignupPage> {
           ),
         ),
       ),
-      bottomNavigationBar: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
-            children: const [Text("Allready have an account?")],
-          ),
-          CupertinoButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return const LoginPage();
-                  },
-                ),
-              );
-            },
-            child: const Text("Login"),
-          )
-        ],
-      ),
+      
     );
   }
 }

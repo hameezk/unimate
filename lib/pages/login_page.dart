@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:unimate/models/user_model.dart';
 import 'package:unimate/pages/home_page.dart';
-import 'package:unimate/pages/signup_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -66,7 +65,8 @@ class _LoginPageState extends State<LoginPage> {
           content: Text("Login successfull!"),
         ),
       );
-      Navigator.push(
+      Navigator.popUntil(context, (route) => route.isFirst);
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (context) {
@@ -95,14 +95,6 @@ class _LoginPageState extends State<LoginPage> {
                             image: NetworkImage(
                                 "https://firebasestorage.googleapis.com/v0/b/flutter-chatapp-6e830.appspot.com/o/profilepictures%2Flogo10_16_173615.png?alt=media&token=60307211-c332-4c67-8883-38e4dd5428f2"))),
                   ),
-                  // const Text(
-                  //   "UNIMATE",
-                  //   style: TextStyle(
-                  //     color: Colors.blueGrey,
-                  //     fontSize: 40,
-                  //     fontWeight: FontWeight.bold,
-                  //   ),
-                  // ),
                   const SizedBox(
                     height: 5,
                   ),
@@ -142,27 +134,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
-      bottomNavigationBar: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
-            children: const [Text("Dont't have an account?")],
-          ),
-          CupertinoButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return const SignupPage();
-                  },
-                ),
-              );
-            },
-            child: const Text("Signup"),
-          )
-        ],
-      ),
+      
     );
   }
 }

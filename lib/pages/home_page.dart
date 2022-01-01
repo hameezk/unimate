@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:unimate/models/user_model.dart';
 import 'package:unimate/pages/chats_show_page.dart';
 import 'package:unimate/pages/login_page.dart';
+import 'package:unimate/pages/signup_page.dart';
 import 'package:unimate/pages/user_profile.dart';
 
 class HomePage extends StatefulWidget {
@@ -43,15 +44,57 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: Center(
-        child: Text(
-          "Welcome ${widget.userModel.fullName}",
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: Colors.pink[900],
+      body: Column(
+        children: [
+          const SizedBox(
+            height: 20,
           ),
-        ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(
+                width: 80,
+                height: 90,
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(20)),
+                  color: Colors.indigo[300],
+                ),
+                child: Center(
+                  child: Column(
+                    children: [
+                      GridTile(
+                        child: IconButton(
+                          iconSize: 40,
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return const SignupPage();
+                                },
+                              ),
+                            );
+                          },
+                          icon: const Icon(
+                            Icons.person_add,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      const Text(
+                        "Sign Up",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
       bottomNavigationBar: Container(
         height: 60,
