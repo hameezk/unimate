@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,39 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
+  List<String> roles = ["Available", "Busy", "In Class"];
+  String? status;
+
+  DropdownMenuItem<String> buildMenuItem(String item) => DropdownMenuItem(
+        value: item,
+        child: Text(
+          item,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.indigo[300],
+          ),
+        ),
+      );
+
+  Future<void> updateStatus(String status) async {
+    widget.userModel.status = status;
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(widget.userModel.uid)
+        .set(widget.userModel.toMap())
+        .then(
+      (value) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            backgroundColor: Colors.blueGrey,
+            duration: Duration(seconds: 1),
+            content: Text("Status Updated"),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -110,30 +144,44 @@ class _UserProfileState extends State<UserProfile> {
                             widget.userModel.profilePic.toString()),
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return EditProfile(
-                                      userModel: widget.userModel,
-                                      firebaseUser: widget.firebaseUser);
-                                },
-                              ),
-                            );
-                          },
-                          icon: Icon(
-                            Icons.settings,
-                            color: Colors.orange[50],
-                            size: 30,
-                          ),
-                        ),
-                      ],
-                    )
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10.0, vertical: 0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          (widget.userModel.role == "Instructor")
+                              ? Container(
+                                  height: 45,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30),
+                                    color: Colors.white,
+                                  ),
+                                  child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 17),
+                                      child: DropdownButtonHideUnderline(
+                                        child: DropdownButton<String>(
+                                          // isExpanded: true,
+                                          hint: const Text("Status"),
+                                          value: status,
+                                          items:
+                                              roles.map(buildMenuItem).toList(),
+                                          onChanged: (value) => setState(
+                                            () {
+                                              status = value;
+                                              updateStatus(status!);
+                                            },
+                                          ),
+                                        ),
+                                      )),
+                                )
+                              : Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -188,6 +236,38 @@ class _UserProfileState extends State<UserProfile> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
                       color: Colors.indigo[300],
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 17),
+                      child: Row(
+                        children: [
+                          (widget.userModel.role == "Student")
+                              ? const Text(
+                                  "Student ID: ",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                  ),
+                                )
+                              : const Text(
+                                  "Designation: ",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                          Text(
+                            widget.userModel.idDesg!,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                              fontSize: 18,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ],

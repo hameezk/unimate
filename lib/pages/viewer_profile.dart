@@ -79,29 +79,38 @@ class _ViewProfileState extends State<ViewProfile> {
                           widget.targetUserModel.profilePic.toString()),
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return HomePage(
-                                    userModel: widget.userModel,
-                                    firebaseUser: widget.firebaseUser);
-                              },
-                            ),
-                          );
-                        },
-                        icon: const Icon(
-                          Icons.home,
-                          color: Colors.white,
-                          size: 30,
-                        ),
-                      ),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        (widget.targetUserModel.role == "Instructor")
+                            ? Container(
+                                height: 45,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(30),
+                                  color: Colors.white,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 17),
+                                  child: Center(
+                                    child: Text(
+                                      widget.targetUserModel.status!,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.indigo[300],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                              ),
+                      ],
+                    ),
                   )
                 ],
               ),
@@ -155,8 +164,40 @@ class _ViewProfileState extends State<ViewProfile> {
                 Container(
                   height: 45,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(30),
                     color: Colors.indigo[300],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 17),
+                    child: Row(
+                      children: [
+                        (widget.targetUserModel.role == "Student")
+                            ? const Text(
+                                "Student ID: ",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                ),
+                              )
+                            : const Text(
+                                "Designation: ",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                ),
+                              ),
+                        Text(
+                          widget.targetUserModel.idDesg!,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white,
+                            fontSize: 18,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ],
