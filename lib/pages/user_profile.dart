@@ -62,6 +62,25 @@ class _UserProfileState extends State<UserProfile> {
         appBar: AppBar(
           elevation: 0.0,
           backgroundColor: Colors.transparent,
+          actions: [
+            (widget.userModel.role == "Admin")
+                ? IconButton(
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return EditProfile(
+                                userModel: widget.userModel,
+                                firebaseUser: widget.firebaseUser);
+                          },
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.settings),
+                  )
+                : Container(),
+          ],
         ),
         extendBodyBehindAppBar: true,
         body: Column(

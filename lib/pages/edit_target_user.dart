@@ -9,19 +9,23 @@ import 'package:image_picker/image_picker.dart';
 import 'package:unimate/models/user_model.dart';
 import 'package:unimate/pages/home_page.dart';
 
-class EditProfile extends StatefulWidget {
+class EditTargetUser extends StatefulWidget {
   final UserModel userModel;
+  final UserModel targetUser;
   final User firebaseUser;
 
-  const EditProfile(
-      {Key? key, required this.userModel, required this.firebaseUser})
+  const EditTargetUser(
+      {Key? key,
+      required this.userModel,
+      required this.firebaseUser,
+      required this.targetUser})
       : super(key: key);
 
   @override
-  _EditProfileState createState() => _EditProfileState();
+  _EditTargetUserState createState() => _EditTargetUserState();
 }
 
-class _EditProfileState extends State<EditProfile> {
+class _EditTargetUserState extends State<EditTargetUser> {
   var temp = 0;
   List<String> roles = ["Admin", "Instructor", "Student"];
   List<String> departments = [
@@ -129,23 +133,23 @@ class _EditProfileState extends State<EditProfile> {
     if (temp == 1) {
       UploadTask uploadTask = FirebaseStorage.instance
           .ref("profilepictures")
-          .child(widget.userModel.uid.toString())
+          .child(widget.targetUser.uid.toString())
           .putFile(imageFile!);
       TaskSnapshot snapshot = await uploadTask;
       String imageUrl = await snapshot.ref.getDownloadURL();
-      widget.userModel.profilePic = imageUrl;
+      widget.targetUser.profilePic = imageUrl;
     }
 
     String fullname = fullNameController.text.trim();
-    widget.userModel.fullName = fullname;
+    widget.targetUser.fullName = fullname;
 
-    widget.userModel.role = role;
-    widget.userModel.department = department;
+    widget.targetUser.role = role;
+    widget.targetUser.department = department;
 
     await FirebaseFirestore.instance
         .collection("users")
-        .doc(widget.userModel.uid)
-        .set(widget.userModel.toMap())
+        .doc(widget.targetUser.uid)
+        .set(widget.targetUser.toMap())
         .then(
       (value) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -172,10 +176,10 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
-    (role == "") ? role = widget.userModel.role : null;
-    (department == "") ? department = widget.userModel.department : null;
-    fullNameController.text = widget.userModel.fullName.toString();
-    idDesgController.text = widget.userModel.idDesg.toString();
+    (role == "") ? role = widget.targetUser.role : null;
+    (department == "") ? department = widget.targetUser.department : null;
+    fullNameController.text = widget.targetUser.fullName.toString();
+    idDesgController.text = widget.targetUser.idDesg.toString();
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -203,7 +207,7 @@ class _EditProfileState extends State<EditProfile> {
                 backgroundImage:
                     (imageFile != null) ? FileImage(imageFile!) : null,
                 foregroundImage: (imageFile == null)
-                    ? NetworkImage(widget.userModel.profilePic!)
+                    ? NetworkImage(widget.targetUser.profilePic!)
                     : null,
               ),
             ),
@@ -223,7 +227,7 @@ class _EditProfileState extends State<EditProfile> {
                           const SizedBox(
                             height: 10,
                           ),
-                          (widget.userModel.role == "Student")
+                          (widget.targetUser.role == "Student")
                               ? TextField(
                                   controller: idDesgController,
                                   decoration: const InputDecoration(

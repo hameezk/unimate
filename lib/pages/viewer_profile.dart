@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:unimate/models/user_model.dart';
-import 'package:unimate/pages/home_page.dart';
+import 'package:unimate/pages/edit_target_user.dart';
 
 class ViewProfile extends StatefulWidget {
   final UserModel targetUserModel;
@@ -26,6 +26,27 @@ class _ViewProfileState extends State<ViewProfile> {
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: Colors.transparent,
+        actions: [
+          (widget.userModel.role == "Admin")
+              ? IconButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return EditTargetUser(
+                            userModel: widget.userModel,
+                            firebaseUser: widget.firebaseUser,
+                            targetUser: widget.targetUserModel,
+                          );
+                        },
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.settings),
+                )
+              : Container(),
+        ],
       ),
       extendBodyBehindAppBar: true,
       body: Column(

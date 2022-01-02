@@ -84,6 +84,7 @@ class _SearchPageState extends State<SearchPage> {
               padding: const EdgeInsets.all(20.0),
               child: ListTile(
                 title: TextField(
+                  onChanged: (value) => setState(() {}),
                   controller: searchController,
                   decoration: const InputDecoration(
                     label: Text(
@@ -95,12 +96,12 @@ class _SearchPageState extends State<SearchPage> {
                     hintText: "Enter Email...",
                   ),
                 ),
-                trailing: IconButton(
-                  icon: const Icon(Icons.search),
-                  onPressed: () {
-                    setState(() {});
-                  },
-                ),
+                // trailing: IconButton(
+                //   icon: const Icon(Icons.search),
+                //   onPressed: () {
+                //     setState(() {});
+                //   },
+                // ),
               ),
             ),
             const SizedBox(

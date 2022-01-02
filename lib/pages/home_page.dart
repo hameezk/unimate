@@ -24,12 +24,10 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.orange[50],
-      // appBar: AppBar(
-      //   backgroundColor: Colors.indigo[300],
-      //   automaticallyImplyLeading: false,
-      //   centerTitle: false,
-      //   title: const Text("UNIMATE"),
-      // ),
+      appBar: AppBar(
+        backgroundColor: Colors.indigo[300],
+        elevation: 0,
+      ),
       body: SafeArea(
         child: Column(
           children: [
