@@ -96,12 +96,6 @@ class _SearchPageState extends State<SearchPage> {
                     hintText: "Enter Email...",
                   ),
                 ),
-                // trailing: IconButton(
-                //   icon: const Icon(Icons.search),
-                //   onPressed: () {
-                //     setState(() {});
-                //   },
-                // ),
               ),
             ),
             const SizedBox(

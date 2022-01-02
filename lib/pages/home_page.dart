@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:unimate/models/user_model.dart';
 import 'package:unimate/pages/chats_show_page.dart';
+import 'package:unimate/pages/departments.dart';
+import 'package:unimate/pages/instructor_list.dart';
 import 'package:unimate/pages/login_page.dart';
 import 'package:unimate/pages/search_page.dart';
 import 'package:unimate/pages/signup_page.dart';
@@ -212,7 +214,16 @@ class _HomePageState extends State<HomePage> {
                         GridTile(
                           child: IconButton(
                             iconSize: 40,
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) {
+                                  return DepartmemntsList(
+                                      userModel: widget.userModel,
+                                      firebaseUser: widget.firebaseUser);
+                                }),
+                              );
+                            },
                             icon: const Icon(
                               Icons.school,
                               color: Colors.white,
@@ -243,7 +254,16 @@ class _HomePageState extends State<HomePage> {
                         GridTile(
                           child: IconButton(
                             iconSize: 40,
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) {
+                                  return InstructorList(
+                                      userModel: widget.userModel,
+                                      firebaseUser: widget.firebaseUser);
+                                }),
+                              );
+                            },
                             icon: const Icon(
                               Icons.person_pin,
                               color: Colors.white,

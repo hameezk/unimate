@@ -76,10 +76,11 @@ class _SignupPageState extends State<SignupPage> {
         uid: uid,
         role: role,
         email: email,
+        department: "",
         fullName: "",
         profilePic: "",
         idDesg: "",
-        status: "",
+        status: "Busy",
       );
       await FirebaseFirestore.instance
           .collection("users")
