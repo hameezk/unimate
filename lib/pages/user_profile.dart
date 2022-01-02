@@ -83,216 +83,336 @@ class _UserProfileState extends State<UserProfile> {
           ],
         ),
         extendBodyBehindAppBar: true,
-        body: Column(
-          children: [
-            Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0),
-              alignment: Alignment.bottomLeft,
-              height: 150,
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(30),
-                  bottomRight: Radius.circular(30),
-                ),
-                color: Colors.indigo[300],
-              ),
-              child: Padding(
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CupertinoButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              elevation: 1,
-                              backgroundColor: Colors.orange[50],
-                              content: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  CircleAvatar(
-                                    radius: 120,
-                                    child: const CircularProgressIndicator(
-                                      color: Colors.blueGrey,
+                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0),
+                alignment: Alignment.bottomLeft,
+                height: 150,
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(30),
+                    bottomRight: Radius.circular(30),
+                  ),
+                  color: Colors.indigo[300],
+                ),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CupertinoButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                elevation: 1,
+                                backgroundColor: Colors.orange[50],
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 120,
+                                      child: const CircularProgressIndicator(
+                                        color: Colors.blueGrey,
+                                      ),
+                                      backgroundColor: Colors.transparent,
+                                      foregroundImage: NetworkImage(widget
+                                          .userModel.profilePic
+                                          .toString()),
                                     ),
-                                    backgroundColor: Colors.transparent,
-                                    foregroundImage: NetworkImage(
-                                        widget.userModel.profilePic.toString()),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: TextButton(
-                                        child: const Text(
-                                          "Change profile",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 15,
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: TextButton(
+                                          child: const Text(
+                                            "Change profile",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 15,
+                                            ),
                                           ),
-                                        ),
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) {
-                                                return EditProfile(
-                                                    userModel: widget.userModel,
-                                                    firebaseUser:
-                                                        widget.firebaseUser);
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) {
+                                                  return EditProfile(
+                                                      userModel:
+                                                          widget.userModel,
+                                                      firebaseUser:
+                                                          widget.firebaseUser);
+                                                },
+                                              ),
+                                            );
+                                          }),
+                                    )
+                                  ],
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        child: CircleAvatar(
+                          radius: 35,
+                          child: const CircularProgressIndicator(
+                            color: Colors.blueGrey,
+                          ),
+                          backgroundColor: Colors.transparent,
+                          foregroundImage: NetworkImage(
+                              widget.userModel.profilePic.toString()),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10.0, vertical: 0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            (widget.userModel.role == "Instructor")
+                                ? Container(
+                                    height: 45,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                      color: Colors.white,
+                                    ),
+                                    child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 17),
+                                        child: DropdownButtonHideUnderline(
+                                          child: DropdownButton<String>(
+                                            // isExpanded: true,
+                                            hint: const Text("Status"),
+                                            value: status,
+                                            items: roles
+                                                .map(buildMenuItem)
+                                                .toList(),
+                                            onChanged: (value) => setState(
+                                              () {
+                                                status = value;
+                                                updateStatus(status!);
                                               },
                                             ),
-                                          );
-                                        }),
+                                          ),
+                                        )),
                                   )
-                                ],
-                              ),
-                            );
-                          },
-                        );
-                      },
-                      child: CircleAvatar(
-                        radius: 35,
-                        child: const CircularProgressIndicator(
-                          color: Colors.blueGrey,
+                                : Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                  ),
+                          ],
                         ),
-                        backgroundColor: Colors.transparent,
-                        foregroundImage: NetworkImage(
-                            widget.userModel.profilePic.toString()),
                       ),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 10,
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10.0, vertical: 0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: Column(
                         children: [
-                          (widget.userModel.role == "Instructor")
-                              ? Container(
-                                  height: 45,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(30),
-                                    color: Colors.white,
-                                  ),
-                                  child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 17),
-                                      child: DropdownButtonHideUnderline(
-                                        child: DropdownButton<String>(
-                                          // isExpanded: true,
-                                          hint: const Text("Status"),
-                                          value: status,
-                                          items:
-                                              roles.map(buildMenuItem).toList(),
-                                          onChanged: (value) => setState(
-                                            () {
-                                              status = value;
-                                              updateStatus(status!);
-                                            },
-                                          ),
-                                        ),
-                                      )),
-                                )
-                              : Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
+                          Row(
+                            children: [
+                              Text(
+                                widget.userModel.fullName.toString(),
+                                maxLines: 3,
+                                style: TextStyle(
+                                  fontSize: 35,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.indigo[300],
                                 ),
+                              ),
+                            ],
+                          ),
+                          Row(children: [
+                            const SizedBox(
+                              width: 2,
+                            ),
+                            Text(
+                              widget.userModel.email.toString(),
+                              maxLines: 1,
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.grey[700],
+                              ),
+                            ),
+                          ]),
+                          const SizedBox(
+                            height: 10,
+                          )
                         ],
+                      ),
+                    ),
+                    Container(
+                      height: 45,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        color: Colors.indigo[300],
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 17),
+                        child: Row(
+                          children: [
+                            (widget.userModel.role == "Student")
+                                ? const Text(
+                                    "Student ID: ",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                    ),
+                                  )
+                                : const Text(
+                                    "Designation: ",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                            Text(
+                              widget.userModel.idDesg!,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white,
+                                fontSize: 18,
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Column(
+              (widget.userModel.role == "Instructor")
+                  ? Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        Row(
-                          children: [
-                            Text(
-                              widget.userModel.fullName.toString(),
-                              maxLines: 3,
-                              style: TextStyle(
-                                fontSize: 35,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.indigo[300],
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(children: [
-                          const SizedBox(
-                            width: 2,
-                          ),
-                          Text(
-                            widget.userModel.email.toString(),
-                            maxLines: 1,
+                        ListTile(
+                          title: Text(
+                            "Offered Courses:",
                             style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.grey[700],
+                              color: Colors.indigo[300],
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
-                        ]),
-                        const SizedBox(
-                          height: 10,
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.all(5.0),
+                          child: ListTile(
+                            isThreeLine: true,
+                            title: Text("Course 1"),
+                            subtitle:
+                                Text("<Day><Time-Time>\n<Day><Time-Time>"),
+                            trailing: Text("<Venue>"),
+                          ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.all(5.0),
+                          child: ListTile(
+                            isThreeLine: true,
+                            title: Text("Course 2"),
+                            subtitle:
+                                Text("<Day><Time-Time>\n<Day><Time-Time>"),
+                            trailing: Text("<Venue>"),
+                          ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.all(5.0),
+                          child: ListTile(
+                            isThreeLine: true,
+                            title: Text("Course 3"),
+                            subtitle:
+                                Text("<Day><Time-Time>\n<Day><Time-Time>"),
+                            trailing: Text("<Venue>"),
+                          ),
                         )
                       ],
-                    ),
-                  ),
-                  Container(
-                    height: 45,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      color: Colors.indigo[300],
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 17),
-                      child: Row(
-                        children: [
-                          (widget.userModel.role == "Student")
-                              ? const Text(
-                                  "Student ID: ",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                  ),
-                                )
-                              : const Text(
-                                  "Designation: ",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                  ),
-                                ),
-                          Text(
-                            widget.userModel.idDesg!,
-                            style: const TextStyle(
+                    )
+                  : Container(),
+              ((widget.userModel.role == "Student"))
+                  ? Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ListTile(
+                          title: Text(
+                            "Enrolled Courses:",
+                            style: TextStyle(
+                              color: Colors.indigo[300],
+                              fontSize: 20,
                               fontWeight: FontWeight.w700,
-                              color: Colors.white,
-                              fontSize: 18,
                             ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
+                          ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.all(5.0),
+                          child: ListTile(
+                            isThreeLine: true,
+                            title: Text("Course 1"),
+                            subtitle:
+                                Text("<Day><Time-Time>\n<Day><Time-Time>"),
+                            trailing: Text("<Venue>"),
+                          ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.all(5.0),
+                          child: ListTile(
+                            isThreeLine: true,
+                            title: Text("Course 2"),
+                            subtitle:
+                                Text("<Day><Time-Time>\n<Day><Time-Time>"),
+                            trailing: Text("<Venue>"),
+                          ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.all(5.0),
+                          child: ListTile(
+                            isThreeLine: true,
+                            title: Text("Course 3"),
+                            subtitle:
+                                Text("<Day><Time-Time>\n<Day><Time-Time>"),
+                            trailing: Text("<Venue>"),
+                          ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.all(5.0),
+                          child: ListTile(
+                            isThreeLine: true,
+                            title: Text("Course 4"),
+                            subtitle:
+                                Text("<Day><Time-Time>\n<Day><Time-Time>"),
+                            trailing: Text("<Venue>"),
+                          ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.all(5.0),
+                          child: ListTile(
+                            isThreeLine: true,
+                            title: Text("Course 5"),
+                            subtitle:
+                                Text("<Day><Time-Time>\n<Day><Time-Time>"),
+                            trailing: Text("<Venue>"),
+                          ),
+                        )
+                      ],
+                    )
+                  : Container(),
+            ],
+          ),
         ),
         bottomNavigationBar: Container(
           height: 60,

@@ -23,10 +23,27 @@ class CompleteProfile extends StatefulWidget {
 }
 
 class _CompleteProfileState extends State<CompleteProfile> {
+  List<String> departments = [
+    "Administration",
+    "Computing & Technology",
+    "Buisness Administration",
+    "Fashion & Design",
+    "Media Studies",
+  ];
+
+  String? department = "Computing & Technology";
   File? imageFile;
 
   TextEditingController fullNameController = TextEditingController();
   TextEditingController idDesgController = TextEditingController();
+
+  DropdownMenuItem<String> buildMenuDept(String item) => DropdownMenuItem(
+        value: item,
+        child: Text(
+          item,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+      );
 
   void selectImage(ImageSource source) async {
     XFile? selectedImage = await ImagePicker().pickImage(source: source);
@@ -63,7 +80,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              ListTile( 
+              ListTile(
                 onTap: () {
                   Navigator.pop(context);
                   selectImage(ImageSource.gallery);
@@ -162,7 +179,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.pink[900],
+        backgroundColor: Colors.indigo[300],
         centerTitle: true,
         title: const Text(
           "Complete Profile",
@@ -176,8 +193,8 @@ class _CompleteProfileState extends State<CompleteProfile> {
                 showImageOptions();
               },
               child: CircleAvatar(
-                backgroundColor: Colors.blueGrey,
-                foregroundColor: Colors.pink[900],
+                backgroundColor: Colors.blueGrey[200],
+                foregroundColor: Colors.indigo[300],
                 radius: 60,
                 backgroundImage:
                     (imageFile != null) ? FileImage(imageFile!) : null,
@@ -200,16 +217,42 @@ class _CompleteProfileState extends State<CompleteProfile> {
                       decoration: const InputDecoration(
                           labelText: "Full name:", hintText: "Enter full name"),
                     ),
-                    (widget.userModel.role=="Student")?TextField(
-                      controller: idDesgController,
-                      decoration: const InputDecoration(
-                          labelText: "Student ID:",
-                          hintText: "Enter student ID:"),
-                    ):TextField(
-                      controller: idDesgController,
-                      decoration: const InputDecoration(
-                          labelText: "Designation:",
-                          hintText: "Enter Designation:"),
+                    (widget.userModel.role == "Student")
+                        ? TextField(
+                            controller: idDesgController,
+                            decoration: const InputDecoration(
+                                labelText: "Student ID:",
+                                hintText: "Enter student ID:"),
+                          )
+                        : TextField(
+                            controller: idDesgController,
+                            decoration: const InputDecoration(
+                                labelText: "Designation:",
+                                hintText: "Enter Designation:"),
+                          ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            isExpanded: true,
+                            hint: const Text("Select Department"),
+                            value: department,
+                            items: departments.map(buildMenuDept).toList(),
+                            onChanged: (value) => setState(
+                              () {
+                                department = value;
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
                     ),
                   ],
                 ),
