@@ -10,6 +10,7 @@ import 'package:unimate/pages/home_page.dart';
 import 'package:unimate/pages/search_page.dart';
 import 'package:unimate/pages/user_profile.dart';
 import 'package:unimate/pages/viewer_profile.dart';
+import 'package:unimate/widgets/navbar.dart';
 
 class ChatPage extends StatefulWidget {
   final UserModel userModel;
@@ -155,80 +156,9 @@ class _ChatPageState extends State<ChatPage> {
         },
         child: const Icon(Icons.search),
       ),
-      bottomNavigationBar: Container(
-        height: 60,
-        decoration: BoxDecoration(
-          color: Colors.indigo[300],
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            IconButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) {
-                    return UserProfile(
-                        userModel: widget.userModel,
-                        firebaseUser: widget.firebaseUser);
-                  }),
-                );
-              },
-              icon: const Icon(
-                CupertinoIcons.person_fill,
-                color: Colors.white,
-                size: 30,
-              ),
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                CupertinoIcons.app,
-                color: Colors.white,
-                size: 30,
-              ),
-            ),
-            IconButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return HomePage(
-                          userModel: widget.userModel,
-                          firebaseUser: widget.firebaseUser);
-                    },
-                  ),
-                );
-              },
-              icon: const Icon(
-                CupertinoIcons.house_fill,
-                color: Colors.white,
-                size: 30,
-              ),
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                CupertinoIcons.app,
-                color: Colors.white,
-                size: 30,
-              ),
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: Icon(
-                CupertinoIcons.chat_bubble_2_fill,
-                color: Colors.grey[900],
-                size: 30,
-              ),
-            ),
-          ],
-        ),
+      bottomNavigationBar: NavBar(
+        firebaseUser: widget.firebaseUser,
+        userModel: widget.userModel, selectedPage: 5,
       ),
     );
   }

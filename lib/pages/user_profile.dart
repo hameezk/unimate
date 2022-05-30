@@ -6,6 +6,7 @@ import 'package:unimate/models/user_model.dart';
 import 'package:unimate/pages/chats_show_page.dart';
 import 'package:unimate/pages/edit_profile.dart';
 import 'package:unimate/pages/home_page.dart';
+import 'package:unimate/widgets/navbar.dart';
 
 class UserProfile extends StatefulWidget {
   final UserModel userModel;
@@ -414,81 +415,10 @@ class _UserProfileState extends State<UserProfile> {
             ],
           ),
         ),
-        bottomNavigationBar: Container(
-          height: 60,
-          decoration: BoxDecoration(
-            color: Colors.indigo[300],
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
-            ),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  CupertinoIcons.person_fill,
-                  color: Colors.grey[900],
-                  size: 30,
-                ),
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  CupertinoIcons.app,
-                  color: Colors.white,
-                  size: 30,
-                ),
-              ),
-              IconButton(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return HomePage(
-                            userModel: widget.userModel,
-                            firebaseUser: widget.firebaseUser);
-                      },
-                    ),
-                  );
-                },
-                icon: const Icon(
-                  CupertinoIcons.house_fill,
-                  color: Colors.white,
-                  size: 30,
-                ),
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  CupertinoIcons.app,
-                  color: Colors.white,
-                  size: 30,
-                ),
-              ),
-              IconButton(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) {
-                      return ChatPage(
-                        firebaseUser: widget.firebaseUser,
-                        userModel: widget.userModel,
-                      );
-                    }),
-                  );
-                },
-                icon: const Icon(
-                  CupertinoIcons.chat_bubble_2_fill,
-                  color: Colors.white,
-                  size: 30,
-                ),
-              ),
-            ],
-          ),
+        bottomNavigationBar: NavBar(
+          firebaseUser: widget.firebaseUser,
+          userModel: widget.userModel,
+          selectedPage: 1,
         ),
       ),
     );

@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:unimate/models/chat_room_model.dart';
 import 'package:unimate/models/message_model.dart';
 import 'package:unimate/models/user_model.dart';

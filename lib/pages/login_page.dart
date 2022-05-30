@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:unimate/models/user_model.dart';
 import 'package:unimate/pages/home_page.dart';
 
@@ -92,8 +91,7 @@ class _LoginPageState extends State<LoginPage> {
                     height: 350,
                     decoration: const BoxDecoration(
                         image: DecorationImage(
-                            image: NetworkImage(
-                                "https://firebasestorage.googleapis.com/v0/b/flutter-chatapp-6e830.appspot.com/o/profilepictures%2Flogo10_16_173615.png?alt=media&token=60307211-c332-4c67-8883-38e4dd5428f2"))),
+                            image: AssetImage("assets/logo10_16_173615.png"))),
                   ),
                   const SizedBox(
                     height: 5,
@@ -134,7 +132,6 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
-      
     );
   }
 }
