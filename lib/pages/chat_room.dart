@@ -1,13 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:unimate/models/chat_room_model.dart';
 import 'package:unimate/models/message_model.dart';
+import 'package:unimate/models/report_model.dart';
 import 'package:unimate/models/user_model.dart';
 import 'package:unimate/pages/viewer_profile.dart';
 
 import '../main.dart';
-
 
 class ChatRoom extends StatefulWidget {
   final UserModel targetUser;
@@ -86,28 +87,81 @@ class _ChatRoomState extends State<ChatRoom> {
           ],
         ),
         actions: [
-          IconButton(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return ViewProfile(
-                      userModel: widget.userModel,
-                      firebaseUser: widget.firebaseUser,
-                      targetUserModel: widget.targetUser,
-                    );
-                  },
+          PopupMenuButton<int>(
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                value: 1,
+                child: Row(
+                  children: const [
+                    Icon(
+                      Icons.person,
+                      size: 30.0,
+                      color: Colors.blueGrey,
+                    ),
+                    SizedBox(
+                      // sized box with width 10
+                      width: 10,
+                    ),
+                    Text(
+                      "View Profile",
+                      style: TextStyle(
+                        color: Colors.blueGrey,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    )
+                  ],
                 ),
-              );
+              ),
+              PopupMenuItem(
+                value: 2,
+                child: Row(
+                  children: const [
+                    Icon(
+                      CupertinoIcons.exclamationmark_shield,
+                      size: 30.0,
+                      color: Colors.blueGrey,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      "Report Chat",
+                      style: TextStyle(
+                        color: Colors.blueGrey,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+            offset: const Offset(0, 40),
+            color: Colors.grey[100],
+            elevation: 2,
+            onSelected: (value) {
+              if (value == 1) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return ViewProfile(
+                        userModel: widget.userModel,
+                        firebaseUser: widget.firebaseUser,
+                        targetUserModel: widget.targetUser,
+                      );
+                    },
+                  ),
+                );
+              } else if (value == 2) {
+                _showReportDialog(
+                  context,
+                  widget.targetUser.uid!,
+                  widget.userModel.uid!,
+                  widget.chatRoom.chatroomId!,
+                );
+              }
             },
-            icon: const Icon(
-              Icons.person,
-              size: 30.0,
-            ),
           ),
-          
         ],
       ),
       body: SafeArea(
@@ -258,6 +312,227 @@ class _ChatRoomState extends State<ChatRoom> {
           ],
         ),
       ),
+    );
+  }
+
+  _showReportDialog(
+    BuildContext context,
+    String reportedUserId,
+    String currentUserId,
+    String chatroomId,
+  ) {
+    List<dynamic> reportReasons = [
+      'Report Reason 1',
+      'Report Reason 2',
+    ];
+    int? _reportReason = -1;
+    TextEditingController _reasonController = TextEditingController();
+    Size size = MediaQuery.of(context).size;
+    showDialog(
+      context: context,
+      builder: (context) => StatefulBuilder(builder: (context, setState) {
+        _reasonController.text = "";
+        return AlertDialog(
+          scrollable: true,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          title: Text(
+            "Report User",
+            style: TextStyle(
+              color: Colors.indigo[300],
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                height: (size.height * 0.05 * (reportReasons.length)),
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: reportReasons.length,
+                    itemBuilder: (context, index) {
+                      String reason = reportReasons[index];
+                      return SizedBox(
+                        height: size.height * 0.05,
+                        child: RadioListTile(
+                          activeColor: Colors.indigo[300],
+                          selectedTileColor: Colors.indigo[300],
+                          groupValue: _reportReason,
+                          controlAffinity: ListTileControlAffinity.leading,
+                          title: Text(
+                            reason,
+                          ),
+                          value: index + 1,
+                          onChanged: (value) {
+                            setState(() {
+                              _reportReason = value as int?;
+                            });
+                          },
+                        ),
+                      );
+                    }),
+              ),
+
+              SizedBox(
+                height: size.height * 0.05,
+                child: RadioListTile(
+                  activeColor: Colors.indigo[300],
+                  selectedTileColor: Colors.indigo[300],
+                  groupValue: _reportReason,
+                  controlAffinity: ListTileControlAffinity.leading,
+                  title: const Text("Other"),
+                  // value: reportReasons.length + 1,
+                  value: 3,
+                  onChanged: (value) {
+                    setState(() {
+                      _reportReason = value! as int?;
+                    });
+                  },
+                ),
+              ),
+              // (_reportReason == reportReasons.length + 1)
+              (_reportReason == 3)
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: TextField(
+                          controller: _reasonController,
+                          minLines: 1,
+                          maxLines: 3,
+                          cursorColor: Colors.indigo[300],
+                        ),
+                      ),
+                    )
+                  : Container(
+                      height: 0,
+                    ),
+            ],
+          ),
+          actions: [
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(20),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10,
+                    horizontal: 20,
+                  ),
+                  child: Text(
+                    "Cancel",
+                    style: TextStyle(
+                      color: Colors.indigo[300],
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: () async {
+                if (_reportReason == 1 ||
+                    _reportReason == 2 ||
+                    _reportReason == 3) {
+                  if (_reportReason == 3 && _reasonController.text == "") {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        duration: Duration(seconds: 2),
+                        content: Text('Please spacify a reason'),
+                      ),
+                    );
+                  } else {
+                    await _reportUser(reportedUserId, currentUserId, chatroomId,
+                        _reportReason!, reportReasons, _reasonController.text);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        duration: Duration(seconds: 2),
+                        content: Text('Chat Reported'),
+                      ),
+                    );
+
+                    Navigator.pop(context);
+                  }
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      duration: Duration(seconds: 2),
+                      content: Text('Please select a reason'),
+                    ),
+                  );
+                }
+              },
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(20),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10,
+                    horizontal: 20,
+                  ),
+                  child: Text(
+                    "Report",
+                    style: TextStyle(
+                      color: Colors.indigo[300],
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              width: size.width * 0.02,
+            ),
+          ],
+        );
+      }),
+    );
+  }
+
+  _reportUser(
+    String reportedUserId,
+    String currentUserId,
+    String chatroomId,
+    int reasonIndex,
+    List reportReasons,
+    String reportText,
+  ) async {
+    ReportModel reportModel = ReportModel()
+      ..reportId = uuid.v1()
+      ..chatroomId = chatroomId
+      ..reportedUserId = reportedUserId
+      ..currentUserId = currentUserId
+      ..reasonIndex = reasonIndex - 1
+      ..reportReasons = reportReasons
+      ..reportText = reportText;
+
+    await FirebaseFirestore.instance
+        .collection("reportedChats")
+        .doc(reportModel.reportId)
+        .set(reportModel.toMap())
+        .then(
+      (value) {
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //   SnackBar(
+        //     backgroundColor: Colors.indigo[300],
+        //     duration: const Duration(seconds: 1),
+        //     content: const Text("Announcement Updated"),
+        //   ),
+        // );
+      },
     );
   }
 }

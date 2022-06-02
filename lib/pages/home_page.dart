@@ -7,6 +7,7 @@ import 'package:unimate/pages/chats_show_page.dart';
 import 'package:unimate/pages/departments.dart';
 import 'package:unimate/pages/instructor_list.dart';
 import 'package:unimate/pages/login_page.dart';
+import 'package:unimate/pages/reported_chats.dart';
 import 'package:unimate/pages/search_page.dart';
 import 'package:unimate/pages/signup_page.dart';
 import 'package:unimate/pages/user_profile.dart';
@@ -552,11 +553,11 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(
               height: 20,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                (widget.userModel.role == "Admin")
-                    ? Container(
+            (widget.userModel.role == "Admin")
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Container(
                         width: 80,
                         height: 90,
                         decoration: BoxDecoration(
@@ -596,8 +597,60 @@ class _HomePageState extends State<HomePage> {
                             ],
                           ),
                         ),
-                      )
-                    : Container(
+                      ),
+                      GestureDetector(
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) {
+                            return ReportedChatPage(
+                                userModel: widget.userModel,
+                                firebaseUser: widget.firebaseUser);
+                          }),
+                        ),
+                        child: Container(
+                          width: 80,
+                          height: 90,
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(20)),
+                            color: Colors.indigo[300],
+                          ),
+                          child: Center(
+                            child: Column(
+                              children: [
+                                GridTile(
+                                  child: IconButton(
+                                    iconSize: 40,
+                                    onPressed: () {
+                                      Navigator.push(context,
+                                          MaterialPageRoute(builder: (context) {
+                                        return ReportedChatPage(
+                                            userModel: widget.userModel,
+                                            firebaseUser: widget.firebaseUser);
+                                      }));
+                                    },
+                                    icon: const Icon(
+                                      CupertinoIcons.chat_bubble_text_fill,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                                const FittedBox(
+                                  child: Text(
+                                    "Reported\nChats",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 13),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
                         width: 80,
                         height: 90,
                         decoration: const BoxDecoration(
@@ -605,30 +658,23 @@ class _HomePageState extends State<HomePage> {
                           color: Colors.transparent,
                         ),
                       ),
-                Container(
-                  width: 80,
-                  height: 90,
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                    color: Colors.transparent,
+                    ],
+                  )
+                : Container(
+                    width: 80,
+                    height: 90,
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      color: Colors.transparent,
+                    ),
                   ),
-                ),
-                Container(
-                  width: 80,
-                  height: 90,
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                    color: Colors.transparent,
-                  ),
-                ),
-              ],
-            )
           ],
         ),
       ),
       bottomNavigationBar: NavBar(
         firebaseUser: widget.firebaseUser,
-        userModel: widget.userModel, selectedPage: 3,
+        userModel: widget.userModel,
+        selectedPage: 3,
       ),
     );
   }
