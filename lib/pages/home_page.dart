@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:unimate/models/user_model.dart';
 import 'package:unimate/pages/announcement_page.dart';
 import 'package:unimate/pages/chats_show_page.dart';
+import 'package:unimate/pages/create_email.dart';
 import 'package:unimate/pages/departments.dart';
+import 'package:unimate/pages/emails.dart';
 import 'package:unimate/pages/instructor_list.dart';
 import 'package:unimate/pages/login_page.dart';
 import 'package:unimate/pages/reported_chats.dart';
@@ -289,56 +291,111 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                GestureDetector(
-                  // onTap: () => Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) {
-                  //     return ChatPage(
-                  //         userModel: widget.userModel,
-                  //         firebaseUser: widget.firebaseUser);
-                  //   }),
-                  // ),
-                  child: Container(
-                    width: 80,
-                    height: 90,
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(20)),
-                      color: Colors.indigo[300],
-                    ),
-                    child: Center(
-                      child: Column(
-                        children: [
-                          GridTile(
-                            child: IconButton(
-                              iconSize: 40,
-                              onPressed: () {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(builder: (context) {
-                                //     return ChatPage(
-                                //         userModel: widget.userModel,
-                                //         firebaseUser: widget.firebaseUser);
-                                //   }),
-                                // );
-                              },
-                              icon: const Icon(
-                                CupertinoIcons.envelope,
-                                color: Colors.white,
-                              ),
+                ((widget.userModel.role == "Student"))
+                    ? GestureDetector(
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) {
+                            return CreateEmail(
+                                userModel: widget.userModel,
+                                firebaseUser: widget.firebaseUser);
+                          }),
+                        ),
+                        child: Container(
+                          width: 80,
+                          height: 90,
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(20)),
+                            color: Colors.indigo[300],
+                          ),
+                          child: Center(
+                            child: Column(
+                              children: [
+                                GridTile(
+                                  child: IconButton(
+                                    iconSize: 40,
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) {
+                                          return CreateEmail(
+                                              userModel: widget.userModel,
+                                              firebaseUser:
+                                                  widget.firebaseUser);
+                                        }),
+                                      );
+                                    },
+                                    icon: const Icon(
+                                      CupertinoIcons.envelope,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                                const Text(
+                                  "Email",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                )
+                              ],
                             ),
                           ),
-                          const Text(
-                            "Email",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w800,
+                        ),
+                      )
+                    : GestureDetector(
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) {
+                            return CreateEmail(
+                                userModel: widget.userModel,
+                                firebaseUser: widget.firebaseUser);
+                          }),
+                        ),
+                        child: Container(
+                          width: 80,
+                          height: 90,
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(20)),
+                            color: Colors.indigo[300],
+                          ),
+                          child: Center(
+                            child: Column(
+                              children: [
+                                GridTile(
+                                  child: IconButton(
+                                    iconSize: 40,
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) {
+                                          return Emails(
+                                              userModel: widget.userModel,
+                                              firebaseUser:
+                                                  widget.firebaseUser);
+                                        }),
+                                      );
+                                    },
+                                    icon: const Icon(
+                                      CupertinoIcons.envelope,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                                const Text(
+                                  "Email",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                )
+                              ],
                             ),
-                          )
-                        ],
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                ),
                 GestureDetector(
                   // onTap: () => Navigator.push(
                   //   context,
