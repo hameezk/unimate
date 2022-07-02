@@ -145,6 +145,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
     widget.userModel.fullName = fullname;
     widget.userModel.profilePic = imageUrl;
     widget.userModel.idDesg = idDesg;
+    widget.userModel.department = department;
 
     await FirebaseFirestore.instance
         .collection("users")

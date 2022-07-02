@@ -10,12 +10,14 @@ class EmailDetails extends StatefulWidget {
   final UserModel userModel;
   final User firebaseUser;
   final EmailModel emailModel;
+  final bool isRecived;
 
   const EmailDetails(
       {Key? key,
       required this.userModel,
       required this.firebaseUser,
-      required this.emailModel})
+      required this.emailModel,
+      required this.isRecived})
       : super(key: key);
 
   @override
@@ -91,11 +93,11 @@ class _EmailDetailsState extends State<EmailDetails> {
                           fontSize: 14,
                         ),
                       ),
-                      trailing: IconButton(
+                      trailing: (widget.isRecived)?IconButton(
                           onPressed: () {
                             _reply(sender.email!);
                           },
-                          icon: const Icon(Icons.reply)),
+                          icon: const Icon(Icons.reply)):Container(height: 0,),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(

@@ -56,6 +56,12 @@ class _UserProfileState extends State<UserProfile> {
   }
 
   @override
+  void initState() {
+    status = widget.userModel.status ?? '';
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
@@ -231,18 +237,14 @@ class _UserProfileState extends State<UserProfile> {
                       padding: const EdgeInsets.symmetric(horizontal: 15),
                       child: Column(
                         children: [
-                          Row(
-                            children: [
-                              Text(
-                                widget.userModel.fullName.toString(),
-                                maxLines: 3,
-                                style: TextStyle(
-                                  fontSize: 35,
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).errorColor,
-                                ),
-                              ),
-                            ],
+                          Text(
+                            widget.userModel.fullName.toString(),
+                            maxLines: 3,
+                            style: TextStyle(
+                              fontSize: 35,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).errorColor,
+                            ),
                           ),
                           Row(children: [
                             const SizedBox(

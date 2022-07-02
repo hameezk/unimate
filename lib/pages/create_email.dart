@@ -33,13 +33,21 @@ class _CreateEmailState extends State<CreateEmail> {
 
   String? recipantId;
   int _selectedSubject = -1;
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+  void initState() {
     _selectedSubject = (widget.isReply) ? widget.parentEmail!.subject! : -1;
     if (widget.isReply) {
       searchController.text = widget.parentEmailId!;
     }
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    // _selectedSubject = (widget.isReply) ? widget.parentEmail!.subject! : -1;
+    // if (widget.isReply) {
+    //   searchController.text = widget.parentEmailId!;
+    // }
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
@@ -96,6 +104,9 @@ class _CreateEmailState extends State<CreateEmail> {
                       ],
                     ),
                     SizedBox(
+                      height: 5,
+                    ),
+                    SizedBox(
                       height: 50,
                       child: ListView.separated(
                         shrinkWrap: true,
@@ -112,31 +123,41 @@ class _CreateEmailState extends State<CreateEmail> {
                       ),
                     ),
                     (_selectedSubject == 3)
-                        ? Container(
-                            width: size.width * 0.8,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              // color: _selectedSubject == 3
-                              //     ? Theme.of(context).canvasColor
-                              //     : Colors.black38,
-                            ),
-                            child: SizedBox(
-                              child: TextField(
-                                keyboardType: TextInputType.multiline,
-                                minLines: 1,
-                                maxLines: 5,
-                                style: const TextStyle(color: Colors.black),
-                                controller: subjectController,
-                                decoration: InputDecoration(
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                    borderSide: const BorderSide(
-                                        color: Colors.black38, width: 0.3),
-                                  ),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                    borderSide: const BorderSide(
-                                        color: Colors.black38, width: 0.3),
+                        ? Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Container(
+                              width: size.width * 0.8,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                // color: _selectedSubject == 3
+                                //     ? Theme.of(context).canvasColor
+                                //     : Colors.black38,
+                              ),
+                              child: SizedBox(
+                                child: TextField(
+                                  keyboardType: TextInputType.multiline,
+                                  minLines: 1,
+                                  maxLines: 5,
+
+                                  // style: const TextStyle(color: Colors.black),
+                                  controller: subjectController,
+                                  decoration: InputDecoration(
+                                    hintText: 'Enter Subject',
+                                    filled: true,
+                                    fillColor: Theme.of(context)
+                                        .scaffoldBackgroundColor,
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15.0),
+                                      borderSide: const BorderSide(
+                                          color: Colors.black38, width: 0.3),
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15.0),
+                                      borderSide: BorderSide(
+                                          color:
+                                              Theme.of(context).indicatorColor,
+                                          width: 0.3),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -210,15 +231,13 @@ class _CreateEmailState extends State<CreateEmail> {
       child: FlatButton(
         onPressed: () {
           setState(() {
-            _selectedSubject = 0;
+            _selectedSubject = index;
           });
         },
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
-        color: _selectedSubject == 0
-            ? Theme.of(context).canvasColor
-            : Colors.black38,
+        color: _selectedSubject == index ? Colors.indigo[300] : Colors.black38,
         child: FittedBox(
           child: Text(
             EmailModel.subjects[index],

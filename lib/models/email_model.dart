@@ -58,6 +58,7 @@ class EmailModel {
     'Marks Distribution',
     'Inquiry',
     'Other',
-    'demo'
+    'demo',
+    'sub1'
   ];
 }

@@ -37,9 +37,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).canvasColor,
         elevation: 0,
-        actions: const [
-          ChangeThemeButtonWidget(),
-        ],
+        
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -451,12 +449,14 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                             ),
-                            const Text(
-                              "Departments",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: 13),
+                            FittedBox(
+                              child: const Text(
+                                "Departments",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w800,
+                                    fontSize: 13),
+                              ),
                             )
                           ],
                         ),

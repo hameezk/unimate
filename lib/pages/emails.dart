@@ -147,18 +147,17 @@ class _EmailsState extends State<Emails> with TickerProviderStateMixin {
                     return Padding(
                       padding: const EdgeInsets.all(5.0),
                       child: GestureDetector(
-                        onTap: () => (widget.userModel.role != 'Student')
-                            ? Navigator.push(
+                        onTap: () => Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) {
                                   return EmailDetails(
                                     userModel: widget.userModel,
                                     firebaseUser: widget.firebaseUser,
                                     emailModel: emailModel,
+                                    isRecived: true,
                                   );
                                 }),
-                              )
-                            : null,
+                              ),
                         child: Card(
                           child: SizedBox(
                             width: double.infinity,
@@ -171,8 +170,7 @@ class _EmailsState extends State<Emails> with TickerProviderStateMixin {
                                       ? Text(
                                           emailModel.otherSubject!,
                                           style: TextStyle(
-                                            color:
-                                                Theme.of(context).canvasColor,
+                                            color: Theme.of(context).errorColor,
                                             fontWeight: FontWeight.w700,
                                             fontSize: 20,
                                           ),
@@ -181,8 +179,7 @@ class _EmailsState extends State<Emails> with TickerProviderStateMixin {
                                           EmailModel
                                               .subjects[emailModel.subject!],
                                           style: TextStyle(
-                                            color:
-                                                Theme.of(context).canvasColor,
+                                            color: Theme.of(context).errorColor,
                                             fontWeight: FontWeight.w700,
                                             fontSize: 20,
                                           ),
@@ -281,57 +278,70 @@ class _EmailsState extends State<Emails> with TickerProviderStateMixin {
 
                     return Padding(
                       padding: const EdgeInsets.all(5.0),
-                      child: Card(
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                (emailModel.subject == 3)
-                                    ? Text(
-                                        emailModel.otherSubject!,
-                                        style: TextStyle(
-                                          color: Theme.of(context).canvasColor,
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 20,
+                      child: GestureDetector(
+                        onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) {
+                                  return EmailDetails(
+                                    userModel: widget.userModel,
+                                    firebaseUser: widget.firebaseUser,
+                                    emailModel: emailModel,
+                                    isRecived: true,
+                                  );
+                                }),
+                              ),
+                        child: Card(
+                          child: SizedBox(
+                            width: double.infinity,
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  (emailModel.subject == 3)
+                                      ? Text(
+                                          emailModel.otherSubject!,
+                                          style: TextStyle(
+                                            color: Theme.of(context).errorColor,
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 20,
+                                          ),
+                                        )
+                                      : Text(
+                                          EmailModel
+                                              .subjects[emailModel.subject!],
+                                          style: TextStyle(
+                                            color: Theme.of(context).errorColor,
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 20,
+                                          ),
+                                        ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    emailModel.text ?? '',
+                                    textAlign: TextAlign.justify,
+                                    maxLines: 10,
+                                  ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        DateFormat("h:mm a · MMM d, yyyy").format(
+                                            emailModel.createdon!.toDate()),
+                                        style:  TextStyle(
+                                          color: Theme.of(context).indicatorColor,
+                                          fontSize: 12,
                                         ),
                                       )
-                                    : Text(
-                                        EmailModel
-                                            .subjects[emailModel.subject!],
-                                        style: TextStyle(
-                                          color: Theme.of(context).canvasColor,
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 20,
-                                        ),
-                                      ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  emailModel.text ?? '',
-                                  textAlign: TextAlign.justify,
-                                  maxLines: 10,
-                                ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      DateFormat("h:mm a · MMM d, yyyy").format(
-                                          emailModel.createdon!.toDate()),
-                                      style: const TextStyle(
-                                        color: Colors.black38,
-                                        fontSize: 12,
-                                      ),
-                                    )
-                                  ],
-                                )
-                              ],
+                                    ],
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),
