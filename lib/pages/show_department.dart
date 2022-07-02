@@ -23,8 +23,9 @@ class _ShowDepartmentState extends State<ShowDepartment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.indigo[300],
+        backgroundColor: Theme.of(context).canvasColor,
         title: Text(widget.department),
       ),
       body: SafeArea(
@@ -87,7 +88,7 @@ class _ShowDepartmentState extends State<ShowDepartment> {
                                 trailing: Text(
                                   instructor.status!,
                                   style: TextStyle(
-                                      color: Colors.indigo[300],
+                                      color: Theme.of(context).errorColor,
                                       fontWeight: FontWeight.w700),
                                 ),
                               );

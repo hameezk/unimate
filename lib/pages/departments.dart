@@ -18,8 +18,9 @@ class _DepartmemntsListState extends State<DepartmemntsList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.indigo[300],
+        backgroundColor: Theme.of(context).canvasColor,
         title: const Text("Departments List"),
       ),
       body: SafeArea(
@@ -45,7 +46,7 @@ class _DepartmemntsListState extends State<DepartmemntsList> {
                 title: Text(
                   "Computing & Technology",
                   style: TextStyle(
-                    color: Colors.indigo[300],
+                    color: Theme.of(context).errorColor,
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
                   ),
@@ -72,7 +73,7 @@ class _DepartmemntsListState extends State<DepartmemntsList> {
                 title: Text(
                   "Buisness Administration",
                   style: TextStyle(
-                    color: Colors.indigo[300],
+                    color: Theme.of(context).errorColor,
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
                   ),
@@ -99,7 +100,7 @@ class _DepartmemntsListState extends State<DepartmemntsList> {
                 title: Text(
                   "Fashion & Design",
                   style: TextStyle(
-                    color: Colors.indigo[300],
+                    color: Theme.of(context).errorColor,
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
                   ),
@@ -126,7 +127,7 @@ class _DepartmemntsListState extends State<DepartmemntsList> {
                 title: Text(
                   "Media Studies",
                   style: TextStyle(
-                    color: Colors.indigo[300],
+                    color: Theme.of(context).errorColor,
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
                   ),

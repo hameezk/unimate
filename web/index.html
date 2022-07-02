@@ -14,7 +14,7 @@
     This is a placeholder for base href that will be replaced by the value of
     the `--base-href` argument provided to `flutter build`.
   -->
-  <base href="$FLUTTER_BASE_HREF">
+  <base href="/directory_name/F:/New folder/Flutter Projects/unimate/build/web">
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
@@ -53,7 +53,7 @@
         // Wait for registration to finish before dropping the <script> tag.
         // Otherwise, the browser will load the script multiple times,
         // potentially different versions.
-        var serviceWorkerUrl = 'flutter_service_worker.js?v=' + serviceWorkerVersion;
+        var serviceWorkerUrl = 'flutter_service_worker.js';
         navigator.serviceWorker.register(serviceWorkerUrl)
           .then((reg) => {
             function waitForActivation(serviceWorker) {
@@ -97,5 +97,33 @@
       loadMainDartJs();
     }
   </script>
+
+<script type="module">
+
+  import { initializeApp } from "../firebase/app";
+  import { getAuth } from "../firebase/auth";
+  import { getFirestore } from "../firebase/firestore";
+  import { getStorage } from "../firebase/storage";
+
+    var firebaseConfig = {
+        apiKey: "AIzaSyDP0wdaPJSoziyA9ZLe2saHMxaJizxxbjA",
+        authDomain: "unimate-63438.firebaseapp.com",
+        projectId: "unimate-63438",
+        storageBucket: "unimate-63438.appspot.com",
+        messagingSenderId: "730733691918",
+        appId: "1:730733691918:web:2de2171afe7b6ef45ca85f",
+        measurementId: "G-PYSWQEP63M"
+      };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+
+
+</script>
+  
+  
+  
 </body>
 </html>

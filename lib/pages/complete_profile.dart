@@ -177,9 +177,10 @@ class _CompleteProfileState extends State<CompleteProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.indigo[300],
+        backgroundColor: Theme.of(context).canvasColor,
         centerTitle: true,
         title: const Text(
           "Complete Profile",
@@ -194,7 +195,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
               },
               child: CircleAvatar(
                 backgroundColor: Colors.blueGrey[200],
-                foregroundColor: Colors.indigo[300],
+                foregroundColor: Theme.of(context).canvasColor,
                 radius: 60,
                 backgroundImage:
                     (imageFile != null) ? FileImage(imageFile!) : null,

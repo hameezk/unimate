@@ -5,9 +5,12 @@ class EmailModel {
   String? sender;
   String? recipant;
   String? text;
+  String? otherSubject;
   int? subject;
   bool? seen;
   Timestamp? createdon;
+  bool? isReply;
+  String? parentId;
 
   EmailModel({
     this.emailId,
@@ -15,8 +18,11 @@ class EmailModel {
     this.recipant,
     this.text,
     this.seen,
+    this.otherSubject,
     this.createdon,
     this.subject,
+    this.isReply,
+    this.parentId,
   });
 
   EmailModel.fromMap(Map<String, dynamic> map) {
@@ -27,6 +33,9 @@ class EmailModel {
     createdon = map["createdOn"];
     subject = map["subject"];
     recipant = map["recipant"];
+    otherSubject = map["otherSubject"];
+    isReply = map["isReply"];
+    parentId = map["parentId"];
   }
 
   Map<String, dynamic> toMap() {
@@ -38,13 +47,17 @@ class EmailModel {
       "createdOn": createdon,
       "subject": subject,
       "recipant": recipant,
+      "otherSubject": otherSubject,
+      "isReply": isReply,
+      "parentId": parentId,
     };
   }
 
-  static List<String> subjects = [
+  static final List<String> subjects = [
     'Attendance',
     'Marks Distribution',
     'Inquiry',
-    'Other'
+    'Other',
+    'demo'
   ];
 }

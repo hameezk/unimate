@@ -34,12 +34,13 @@ class _ReportedChatroomState extends State<ReportedChatroom> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Column(
           children: [
             Container(
               height: 105,
-              color: Colors.indigo[300],
+              color: Theme.of(context).canvasColor,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
@@ -181,7 +182,7 @@ class _ReportedChatroomState extends State<ReportedChatroom> {
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(20),
-                                          color: Colors.indigo[300],
+                                          color: Theme.of(context).canvasColor,
                                         ),
                                         child:
                                             Text(currentMessage.text.toString(),

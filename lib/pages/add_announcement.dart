@@ -24,8 +24,9 @@ class _AddAnnouncementState extends State<AddAnnouncement> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.indigo[300],
+        backgroundColor: Theme.of(context).canvasColor,
         title: const Text("Announcements"),
         automaticallyImplyLeading: true,
       ),
@@ -45,7 +46,7 @@ class _AddAnnouncementState extends State<AddAnnouncement> {
                   controller: titleController,
                   textAlignVertical: TextAlignVertical.center,
                   // style: TextStyle(
-                  //   color: Colors.indigo[300],
+                  //   color: Theme.of(context).canvasColor,
                   // ),
                   textInputAction: TextInputAction.done,
                   keyboardType: TextInputType.text,
@@ -54,10 +55,10 @@ class _AddAnnouncementState extends State<AddAnnouncement> {
                         horizontal: 15, vertical: 18),
                     labelText: 'Title',
                     labelStyle: TextStyle(
-                      color: Colors.indigo[300],
+                      color: Theme.of(context).errorColor,
                     ),
                     fillColor: Colors.grey[200],
-                    filled: true,
+                    filled: false,
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15.0),
                       borderSide:
@@ -84,10 +85,10 @@ class _AddAnnouncementState extends State<AddAnnouncement> {
                         horizontal: 15, vertical: 18),
                     labelText: 'Content',
                     labelStyle: TextStyle(
-                      color: Colors.indigo[300],
+                      color: Theme.of(context).errorColor,
                     ),
                     fillColor: Colors.grey[200],
-                    filled: true,
+                    filled: false,
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15.0),
                       borderSide:
@@ -107,7 +108,7 @@ class _AddAnnouncementState extends State<AddAnnouncement> {
                 child: Text(
                   'Submit',
                   style: TextStyle(
-                    color: Colors.indigo[300],
+                    color: Theme.of(context).errorColor,
                     fontSize: 16,
                   ),
                 ),
@@ -123,7 +124,7 @@ class _AddAnnouncementState extends State<AddAnnouncement> {
     if (titleController.text.isEmpty || contentController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          backgroundColor: Colors.indigo[300],
+          backgroundColor: Theme.of(context).canvasColor,
           duration: const Duration(seconds: 1),
           content: const Text("Please fill all the fields!"),
         ),
@@ -151,12 +152,12 @@ class _AddAnnouncementState extends State<AddAnnouncement> {
       (value) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            backgroundColor: Colors.indigo[300],
+            backgroundColor: Theme.of(context).canvasColor,
             duration: const Duration(seconds: 1),
             content: const Text("Announcement Updated"),
           ),
         );
-       
+
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(

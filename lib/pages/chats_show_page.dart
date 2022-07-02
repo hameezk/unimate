@@ -28,9 +28,9 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.orange[50],
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.indigo[300],
+        backgroundColor: Theme.of(context).canvasColor,
         title: const Text("Chats"),
       ),
       body: SafeArea(
@@ -80,6 +80,7 @@ class _ChatPageState extends State<ChatPage> {
                                 );
                               },
                               leading: CircleAvatar(
+                                backgroundColor: Colors.transparent,
                                 child: const CircularProgressIndicator(),
                                 foregroundImage: NetworkImage(
                                     targetUser.profilePic.toString()),
@@ -147,18 +148,22 @@ class _ChatPageState extends State<ChatPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.indigo[300],
+        backgroundColor: Theme.of(context).canvasColor,
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
             return SearchPage(
                 userModel: widget.userModel, firebaseUser: widget.firebaseUser);
           }));
         },
-        child: const Icon(Icons.search),
+        child: const Icon(
+          Icons.search,
+          color: Colors.white54,
+        ),
       ),
       bottomNavigationBar: NavBar(
         firebaseUser: widget.firebaseUser,
-        userModel: widget.userModel, selectedPage: 5,
+        userModel: widget.userModel,
+        selectedPage: 5,
       ),
     );
   }

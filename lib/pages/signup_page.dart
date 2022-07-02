@@ -113,6 +113,7 @@ class _SignupPageState extends State<SignupPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(25.0),
@@ -123,14 +124,14 @@ class _SignupPageState extends State<SignupPage> {
                   Text(
                     "Unimate",
                     style: TextStyle(
-                        color: Colors.indigo[300],
+                        color: Theme.of(context).errorColor,
                         fontSize: 50,
                         fontWeight: FontWeight.w700),
                   ),
                   Text(
                     "Signup",
                     style: TextStyle(
-                        color: Colors.indigo[300],
+                        color: Theme.of(context).errorColor,
                         fontSize: 20,
                         fontWeight: FontWeight.w400),
                   ),
@@ -202,7 +203,6 @@ class _SignupPageState extends State<SignupPage> {
           ),
         ),
       ),
-      
     );
   }
 }

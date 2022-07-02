@@ -115,7 +115,7 @@ class _EditProfileState extends State<EditProfile> {
         department == "") {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          backgroundColor: Colors.indigo[300],
+          backgroundColor: Theme.of(context).canvasColor,
           duration: const Duration(seconds: 1),
           content: const Text("Please fill all the fields!"),
         ),
@@ -150,7 +150,7 @@ class _EditProfileState extends State<EditProfile> {
       (value) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            backgroundColor: Colors.indigo[300],
+            backgroundColor: Theme.of(context).canvasColor,
             duration: const Duration(seconds: 1),
             content: const Text("Profile Updated"),
           ),
@@ -177,9 +177,10 @@ class _EditProfileState extends State<EditProfile> {
     fullNameController.text = widget.userModel.fullName.toString();
     idDesgController.text = widget.userModel.idDesg.toString();
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.indigo[300],
+        backgroundColor: Theme.of(context).canvasColor,
         centerTitle: true,
         title: const Text(
           "Edit Profile",
@@ -197,7 +198,7 @@ class _EditProfileState extends State<EditProfile> {
                 showImageOptions();
               },
               child: CircleAvatar(
-                backgroundColor: Colors.indigo[300],
+                backgroundColor: Theme.of(context).canvasColor,
                 foregroundColor: Colors.white,
                 radius: 60,
                 backgroundImage:
@@ -290,7 +291,7 @@ class _EditProfileState extends State<EditProfile> {
               height: 30,
             ),
             CupertinoButton(
-              color: Colors.indigo[300],
+              color: Theme.of(context).canvasColor,
               onPressed: () {
                 checkValues();
               },

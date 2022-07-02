@@ -20,8 +20,9 @@ class _InstructorListState extends State<InstructorList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
-          backgroundColor: Colors.indigo[300],
+          backgroundColor: Theme.of(context).canvasColor,
           title: const Text("Instructors List"),
         ),
         body: SafeArea(
@@ -115,7 +116,7 @@ class _InstructorListState extends State<InstructorList> {
                                       trailing: Text(
                                         instructor.status!,
                                         style: TextStyle(
-                                            color: Colors.indigo[300],
+                                            color: Theme.of(context).errorColor,
                                             fontWeight: FontWeight.w700),
                                       ),
                                     );

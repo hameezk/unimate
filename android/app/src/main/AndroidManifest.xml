@@ -2,7 +2,7 @@
     package="com.example.unimate">
    <application
         android:label="unimate"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

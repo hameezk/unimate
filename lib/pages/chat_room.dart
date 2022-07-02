@@ -62,9 +62,10 @@ class _ChatRoomState extends State<ChatRoom> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.indigo[300],
+        backgroundColor: Theme.of(context).canvasColor,
         title: Row(
           children: [
             CircleAvatar(
@@ -247,7 +248,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(20),
-                                          color: Colors.indigo[300],
+                                          color: Theme.of(context).canvasColor,
                                         ),
                                         child:
                                             Text(currentMessage.text.toString(),
@@ -340,7 +341,7 @@ class _ChatRoomState extends State<ChatRoom> {
           title: Text(
             "Report User",
             style: TextStyle(
-              color: Colors.indigo[300],
+              color: Theme.of(context).indicatorColor,
               fontWeight: FontWeight.w700,
             ),
           ),
@@ -357,8 +358,8 @@ class _ChatRoomState extends State<ChatRoom> {
                       return SizedBox(
                         height: size.height * 0.05,
                         child: RadioListTile(
-                          activeColor: Colors.indigo[300],
-                          selectedTileColor: Colors.indigo[300],
+                          activeColor: Theme.of(context).canvasColor,
+                          selectedTileColor: Theme.of(context).canvasColor,
                           groupValue: _reportReason,
                           controlAffinity: ListTileControlAffinity.leading,
                           title: Text(
@@ -378,8 +379,8 @@ class _ChatRoomState extends State<ChatRoom> {
               SizedBox(
                 height: size.height * 0.05,
                 child: RadioListTile(
-                  activeColor: Colors.indigo[300],
-                  selectedTileColor: Colors.indigo[300],
+                  activeColor: Theme.of(context).canvasColor,
+                  selectedTileColor: Theme.of(context).canvasColor,
                   groupValue: _reportReason,
                   controlAffinity: ListTileControlAffinity.leading,
                   title: const Text("Other"),
@@ -402,7 +403,7 @@ class _ChatRoomState extends State<ChatRoom> {
                           controller: _reasonController,
                           minLines: 1,
                           maxLines: 3,
-                          cursorColor: Colors.indigo[300],
+                          cursorColor: Theme.of(context).canvasColor,
                         ),
                       ),
                     )
@@ -431,7 +432,7 @@ class _ChatRoomState extends State<ChatRoom> {
                   child: Text(
                     "Cancel",
                     style: TextStyle(
-                      color: Colors.indigo[300],
+                      color: Theme.of(context).canvasColor,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -486,7 +487,7 @@ class _ChatRoomState extends State<ChatRoom> {
                   child: Text(
                     "Report",
                     style: TextStyle(
-                      color: Colors.indigo[300],
+                      color: Theme.of(context).canvasColor,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -527,7 +528,7 @@ class _ChatRoomState extends State<ChatRoom> {
       (value) {
         // ScaffoldMessenger.of(context).showSnackBar(
         //   SnackBar(
-        //     backgroundColor: Colors.indigo[300],
+        //     backgroundColor: Theme.of(context).canvasColor,
         //     duration: const Duration(seconds: 1),
         //     content: const Text("Announcement Updated"),
         //   ),

@@ -10,10 +10,17 @@ import '../main.dart';
 class CreateEmail extends StatefulWidget {
   final UserModel userModel;
   final User firebaseUser;
-
-  const CreateEmail(
-      {Key? key, required this.userModel, required this.firebaseUser})
-      : super(key: key);
+  final bool isReply;
+  final EmailModel? parentEmail;
+  final String? parentEmailId;
+  const CreateEmail({
+    Key? key,
+    required this.userModel,
+    required this.firebaseUser,
+    required this.isReply,
+    this.parentEmail,
+    this.parentEmailId,
+  }) : super(key: key);
 
   @override
   State<CreateEmail> createState() => _CreateEmailState();
@@ -29,10 +36,14 @@ class _CreateEmailState extends State<CreateEmail> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    _selectedSubject = (widget.isReply) ? widget.parentEmail!.subject! : -1;
+    if (widget.isReply) {
+      searchController.text = widget.parentEmailId!;
+    }
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.indigo[300],
+        backgroundColor: Theme.of(context).canvasColor,
         title: const Text("Create Email"),
       ),
       body: Column(
@@ -49,17 +60,22 @@ class _CreateEmailState extends State<CreateEmail> {
                     const Text('To:   '),
                     Expanded(
                       child: TextField(
+                        enabled: !widget.isReply,
                         controller: searchController,
                       ),
                     ),
-                    InkWell(
-                      child: const Icon(
-                        Icons.search_rounded,
-                      ),
-                      onTap: () {
-                        _showSearch(context, size);
-                      },
-                    ),
+                    (widget.isReply)
+                        ? Container(
+                            height: 0,
+                          )
+                        : InkWell(
+                            child: const Icon(
+                              Icons.search_rounded,
+                            ),
+                            onTap: () {
+                              _showSearch(context, size);
+                            },
+                          ),
                   ],
                 ),
               ),
@@ -79,114 +95,21 @@ class _CreateEmailState extends State<CreateEmail> {
                         Text('Subject:   '),
                       ],
                     ),
-                    Wrap(
-                      alignment: WrapAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          width: size.width * 0.25,
-                          child: FlatButton(
-                            onPressed: () {
-                              setState(() {
-                                _selectedSubject = 0;
-                              });
-                            },
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            color: _selectedSubject == 0
-                                ? Colors.indigo[300]
-                                : Colors.black38,
-                            child: const FittedBox(
-                              child: Text(
-                                'Attendance',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: size.width * 0.25,
-                          child: FlatButton(
-                            onPressed: () {
-                              setState(() {
-                                _selectedSubject = 1;
-                              });
-                            },
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            color: _selectedSubject == 1
-                                ? Colors.indigo[300]
-                                : Colors.black38,
-                            child: const FittedBox(
-                              child: Text(
-                                'Marks Distribution',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: size.width * 0.25,
-                          child: FlatButton(
-                            onPressed: () {
-                              setState(() {
-                                _selectedSubject = 2;
-                              });
-                            },
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            color: _selectedSubject == 2
-                                ? Colors.indigo[300]
-                                : Colors.black38,
-                            child: const FittedBox(
-                              child: Text(
-                                'Inquiry',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: size.width * 0.25,
-                          child: FlatButton(
-                            onPressed: () {
-                              setState(() {
-                                _selectedSubject = 3;
-                              });
-                            },
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            color: _selectedSubject == 3
-                                ? Colors.indigo[300]
-                                : Colors.black38,
-                            child: const FittedBox(
-                              child: Text(
-                                'Other',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                    SizedBox(
+                      height: 50,
+                      child: ListView.separated(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: EmailModel.subjects.length,
+                        itemBuilder: (context, index) {
+                          return buildSubjectTile(size, index);
+                        },
+                        separatorBuilder: (BuildContext context, int index) {
+                          return const SizedBox(
+                            width: 5,
+                          );
+                        },
+                      ),
                     ),
                     (_selectedSubject == 3)
                         ? Container(
@@ -194,7 +117,7 @@ class _CreateEmailState extends State<CreateEmail> {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
                               // color: _selectedSubject == 3
-                              //     ? Colors.indigo[300]
+                              //     ? Theme.of(context).canvasColor
                               //     : Colors.black38,
                             ),
                             child: SizedBox(
@@ -238,7 +161,7 @@ class _CreateEmailState extends State<CreateEmail> {
                     decoration: InputDecoration(
                       labelText: 'Content: ',
                       fillColor: Colors.white70,
-                      filled: true,
+                      filled: false,
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15.0),
                         borderSide:
@@ -251,7 +174,7 @@ class _CreateEmailState extends State<CreateEmail> {
                     keyboardType: TextInputType.multiline,
                     minLines: 1,
                     maxLines: 10,
-                    style: const TextStyle(color: Colors.black),
+                    // style: const TextStyle(color: Colors.black),
                     controller: contentController,
                   ),
                 ),
@@ -260,20 +183,51 @@ class _CreateEmailState extends State<CreateEmail> {
           ),
         ],
       ),
-      bottomNavigationBar: GestureDetector(
-        onTap: () => checkValues(),
-        child: Container(
-          height: 60,
-          width: 150,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: Colors.indigo[300],
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 60),
+        child: GestureDetector(
+          onTap: () => checkValues(),
+          child: Container(
+            height: 60,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: Theme.of(context).canvasColor,
+            ),
+            child: const Center(
+                child: Text(
+              "Submit",
+              style: TextStyle(color: Colors.white, fontSize: 18),
+            )),
           ),
-          child: const Center(
-              child: Text(
-            "Submit",
-            style: TextStyle(color: Colors.white, fontSize: 18),
-          )),
+        ),
+      ),
+    );
+  }
+
+  Widget buildSubjectTile(size, index) {
+    return SizedBox(
+      // width: size.width * 0.25,
+      child: FlatButton(
+        onPressed: () {
+          setState(() {
+            _selectedSubject = 0;
+          });
+        },
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        color: _selectedSubject == 0
+            ? Theme.of(context).canvasColor
+            : Colors.black38,
+        child: FittedBox(
+          child: Text(
+            EmailModel.subjects[index],
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 14.0,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
         ),
       ),
     );
@@ -464,13 +418,23 @@ class _CreateEmailState extends State<CreateEmail> {
         _selectedSubject < 0) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          backgroundColor: Colors.indigo[300],
+          backgroundColor: Theme.of(context).canvasColor,
           duration: const Duration(seconds: 1),
           content: const Text("Please fill all the fields!"),
         ),
       );
     } else {
-      uploadData();
+      if (_selectedSubject == 3 && subjectController.text.trim().isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Theme.of(context).canvasColor,
+            duration: const Duration(seconds: 1),
+            content: const Text("Please fill all the fields!"),
+          ),
+        );
+      } else {
+        uploadData();
+      }
     }
   }
 
@@ -480,13 +444,16 @@ class _CreateEmailState extends State<CreateEmail> {
     String content = contentController.text.trim();
 
     EmailModel newEmail = EmailModel(
+      otherSubject: subject,
       emailId: uuid.v1(),
       sender: widget.userModel.uid,
-      recipant: recipantId,
-      text: subject,
+      recipant: (widget.isReply) ? widget.parentEmail!.sender : recipantId,
+      text: content,
       subject: _selectedSubject,
       seen: false,
       createdon: Timestamp.fromDate(DateTime.now()),
+      isReply: widget.isReply,
+      parentId: (widget.parentEmail != null) ? widget.parentEmail!.emailId : '',
     );
 
     await FirebaseFirestore.instance
@@ -497,7 +464,7 @@ class _CreateEmailState extends State<CreateEmail> {
       (value) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            backgroundColor: Colors.indigo[300],
+            backgroundColor: Theme.of(context).canvasColor,
             duration: const Duration(seconds: 1),
             content: const Text("Email Updated"),
           ),

@@ -23,6 +23,7 @@ class _ViewProfileState extends State<ViewProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: Colors.transparent,
@@ -59,7 +60,7 @@ class _ViewProfileState extends State<ViewProfile> {
               height: 190,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: Colors.indigo[300],
+                color: Theme.of(context).canvasColor,
               ),
               child: Padding(
                 padding:
@@ -124,7 +125,7 @@ class _ViewProfileState extends State<ViewProfile> {
                                         widget.targetUserModel.status!,
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          color: Colors.indigo[300],
+                                          color: Theme.of(context).canvasColor,
                                         ),
                                       ),
                                     ),
@@ -161,7 +162,7 @@ class _ViewProfileState extends State<ViewProfile> {
                               style: TextStyle(
                                 fontSize: 35,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.indigo[300],
+                                color: Theme.of(context).errorColor,
                               ),
                             ),
                           ],
@@ -186,7 +187,7 @@ class _ViewProfileState extends State<ViewProfile> {
                           height: 45,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
-                            color: Colors.indigo[300],
+                            color: Theme.of(context).canvasColor,
                           ),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 17),
@@ -229,7 +230,7 @@ class _ViewProfileState extends State<ViewProfile> {
                                     title: Text(
                                       "Offered Courses:",
                                       style: TextStyle(
-                                        color: Colors.indigo[300],
+                                        color: Theme.of(context).errorColor,
                                         fontSize: 20,
                                         fontWeight: FontWeight.w700,
                                       ),
@@ -277,7 +278,8 @@ class _ViewProfileState extends State<ViewProfile> {
                                         title: Text(
                                           "Enrolled Courses:",
                                           style: TextStyle(
-                                            color: Colors.indigo[300],
+                                            color:
+                                                Theme.of(context).errorColor,
                                             fontSize: 20,
                                             fontWeight: FontWeight.w700,
                                           ),

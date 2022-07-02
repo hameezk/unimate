@@ -23,9 +23,9 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.orange[50],
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.indigo[300],
+        backgroundColor: Theme.of(context).canvasColor,
         title: const Text("Announcements"),
         automaticallyImplyLeading: true,
       ),
@@ -58,7 +58,7 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
                               Text(
                                 '${announcementModel.announcementTitle!}:',
                                 style: TextStyle(
-                                  color: Colors.indigo[300],
+                                  color: Theme.of(context).errorColor,
                                   fontSize: 20,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -101,8 +101,8 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
       floatingActionButton: (widget.userModel.role == 'Admin')
           ? FloatingActionButton(
               tooltip: 'Add Announcement',
-              backgroundColor: Colors.indigo[300],
-              child: const Icon(Icons.add),
+              backgroundColor: Theme.of(context).canvasColor,
+              child: const Icon(Icons.add,color: Colors.white54,),
               onPressed: () {
                 Navigator.push(
                   context,

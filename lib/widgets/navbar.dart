@@ -5,6 +5,7 @@ import 'package:unimate/models/user_model.dart';
 import 'package:unimate/pages/announcement_page.dart';
 import 'package:unimate/pages/chats_show_page.dart';
 import 'package:unimate/pages/home_page.dart';
+import 'package:unimate/pages/settings.dart';
 import 'package:unimate/pages/user_profile.dart';
 
 class NavBar extends StatefulWidget {
@@ -25,9 +26,9 @@ class _NavBarState extends State<NavBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 60,
+      height: 70,
       decoration: BoxDecoration(
-        color: Colors.indigo[300],
+        color: Theme.of(context).canvasColor,
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),
@@ -53,8 +54,9 @@ class _NavBarState extends State<NavBar> {
             },
             icon: Icon(
               CupertinoIcons.person_fill,
-              color:
-                  (widget.selectedPage == 1) ? Colors.grey[900] : Colors.white,
+              color: (widget.selectedPage == 1)
+                  ? Theme.of(context).indicatorColor
+                  : Theme.of(context).bottomAppBarColor,
               size: 30,
             ),
           ),
@@ -73,8 +75,9 @@ class _NavBarState extends State<NavBar> {
             },
             icon: Icon(
               CupertinoIcons.speaker_3,
-              color:
-                  (widget.selectedPage == 2) ? Colors.grey[900] : Colors.white,
+              color: (widget.selectedPage == 2)
+                  ? Theme.of(context).indicatorColor
+                  : Theme.of(context).bottomAppBarColor,
               size: 30,
             ),
           ),
@@ -95,19 +98,31 @@ class _NavBarState extends State<NavBar> {
             },
             icon: Icon(
               CupertinoIcons.house_fill,
-              color:
-                  (widget.selectedPage == 3) ? Colors.grey[900] : Colors.white,
+              color: (widget.selectedPage == 3)
+                  ? Theme.of(context).indicatorColor
+                  : Theme.of(context).bottomAppBarColor,
               size: 30,
             ),
           ),
           IconButton(
             onPressed: () {
-              (widget.selectedPage != 4) ? null : null;
+              (widget.selectedPage != 4)
+                  ? Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) {
+                        return Settings(
+                          firebaseUser: widget.firebaseUser,
+                          userModel: widget.userModel,
+                        );
+                      }),
+                    )
+                  : null;
             },
             icon: Icon(
               CupertinoIcons.settings,
-              color:
-                  (widget.selectedPage == 4) ? Colors.grey[900] : Colors.white,
+              color: (widget.selectedPage == 4)
+                  ? Theme.of(context).indicatorColor
+                  : Theme.of(context).bottomAppBarColor,
               size: 30,
             ),
           ),
@@ -127,8 +142,9 @@ class _NavBarState extends State<NavBar> {
             },
             icon: Icon(
               CupertinoIcons.chat_bubble_2_fill,
-              color:
-                  (widget.selectedPage == 5) ? Colors.grey[900] : Colors.white,
+              color: (widget.selectedPage == 5)
+                  ? Theme.of(context).indicatorColor
+                  : Theme.of(context).bottomAppBarColor,
               size: 30,
             ),
           ),

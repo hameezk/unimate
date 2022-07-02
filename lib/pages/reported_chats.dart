@@ -30,9 +30,9 @@ class _ReportedChatPageState extends State<ReportedChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.orange[50],
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.indigo[300],
+        backgroundColor: Theme.of(context).canvasColor,
         title: const Text("Reported Chats"),
       ),
       body: SafeArea(
@@ -201,7 +201,7 @@ class _ReportedChatPageState extends State<ReportedChatPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.indigo[300],
+        backgroundColor: Theme.of(context).canvasColor,
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
             return SearchPage(

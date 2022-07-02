@@ -31,7 +31,7 @@ class _UserProfileState extends State<UserProfile> {
           item,
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            color: Colors.indigo[300],
+            color: Theme.of(context).canvasColor,
           ),
         ),
       );
@@ -59,7 +59,7 @@ class _UserProfileState extends State<UserProfile> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.orange[50],
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
           elevation: 0.0,
           backgroundColor: Colors.transparent,
@@ -97,7 +97,7 @@ class _UserProfileState extends State<UserProfile> {
                     bottomLeft: Radius.circular(30),
                     bottomRight: Radius.circular(30),
                   ),
-                  color: Colors.indigo[300],
+                  color: Theme.of(context).canvasColor,
                 ),
                 child: Padding(
                   padding:
@@ -112,7 +112,6 @@ class _UserProfileState extends State<UserProfile> {
                             builder: (context) {
                               return AlertDialog(
                                 elevation: 1,
-                                backgroundColor: Colors.orange[50],
                                 content: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
@@ -185,8 +184,16 @@ class _UserProfileState extends State<UserProfile> {
                                             horizontal: 17),
                                         child: DropdownButtonHideUnderline(
                                           child: DropdownButton<String>(
+                                            iconEnabledColor:
+                                                Theme.of(context).canvasColor,
                                             // isExpanded: true,
-                                            hint: const Text("Status"),
+                                            dropdownColor: Colors.white,
+                                            hint: Text(
+                                              "Status",
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .canvasColor),
+                                            ),
                                             value: status,
                                             items: roles
                                                 .map(buildMenuItem)
@@ -232,7 +239,7 @@ class _UserProfileState extends State<UserProfile> {
                                 style: TextStyle(
                                   fontSize: 35,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.indigo[300],
+                                  color: Theme.of(context).errorColor,
                                 ),
                               ),
                             ],
@@ -260,7 +267,7 @@ class _UserProfileState extends State<UserProfile> {
                       height: 45,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
-                        color: Colors.indigo[300],
+                        color: Theme.of(context).canvasColor,
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 17),
@@ -306,7 +313,7 @@ class _UserProfileState extends State<UserProfile> {
                           title: Text(
                             "Offered Courses:",
                             style: TextStyle(
-                              color: Colors.indigo[300],
+                              color: Theme.of(context).errorColor,
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
                             ),
@@ -353,7 +360,7 @@ class _UserProfileState extends State<UserProfile> {
                           title: Text(
                             "Enrolled Courses:",
                             style: TextStyle(
-                              color: Colors.indigo[300],
+                              color: Theme.of(context).errorColor,
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
                             ),
