@@ -7,6 +7,7 @@ class UserModel {
   String? status;
   String? role;
   String? department;
+  List? courses;
 
   UserModel({
     this.uid,
@@ -16,7 +17,8 @@ class UserModel {
     this.idDesg,
     this.status,
     this.role,
-    this.department
+    this.department,
+    this.courses,
   });
 
   UserModel.fromMap(Map<String, dynamic> map) {
@@ -28,6 +30,7 @@ class UserModel {
     status = map["status"];
     role = map["role"];
     department = map["department"];
+    courses = map["courses"];
   }
 
   Map<String, dynamic> toMap() {
@@ -40,6 +43,7 @@ class UserModel {
       "status": status,
       "role": role,
       "department": department,
+      "courses": courses,
     };
   }
 }

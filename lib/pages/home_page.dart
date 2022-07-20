@@ -12,11 +12,11 @@ import 'package:unimate/pages/login_page.dart';
 import 'package:unimate/pages/reported_chats.dart';
 import 'package:unimate/pages/search_page.dart';
 import 'package:unimate/pages/settings.dart';
+import 'package:unimate/pages/show_department.dart';
 import 'package:unimate/pages/signup_page.dart';
 import 'package:unimate/pages/user_profile.dart';
 import 'package:unimate/widgets/navbar.dart';
 
-import '../widgets/change_theme_button.dart';
 
 class HomePage extends StatefulWidget {
   final UserModel userModel;
@@ -414,9 +414,13 @@ class _HomePageState extends State<HomePage> {
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) {
-                        return DepartmemntsList(
+                        return (widget.userModel.department=='Administration')?DepartmemntsList(
                             userModel: widget.userModel,
-                            firebaseUser: widget.firebaseUser);
+                            firebaseUser: widget.firebaseUser):ShowDepartment(
+                          userModel: widget.userModel,
+                          firebaseUser: widget.firebaseUser,
+                          department: widget.userModel.department??"Computing & Technology",
+                        );
                       }),
                     ),
                     child: Container(
@@ -434,14 +438,18 @@ class _HomePageState extends State<HomePage> {
                               child: IconButton(
                                 iconSize: 40,
                                 onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) {
-                                      return DepartmemntsList(
-                                          userModel: widget.userModel,
-                                          firebaseUser: widget.firebaseUser);
-                                    }),
-                                  );
+                                Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) {
+                        return (widget.userModel.department=='Administration')?DepartmemntsList(
+                            userModel: widget.userModel,
+                            firebaseUser: widget.firebaseUser):ShowDepartment(
+                          userModel: widget.userModel,
+                          firebaseUser: widget.firebaseUser,
+                          department: widget.userModel.department??"Computing & Technology",
+                        );
+                      }),
+                    );
                                 },
                                 icon: const Icon(
                                   Icons.school,
@@ -594,7 +602,8 @@ class _HomePageState extends State<HomePage> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) {
-                                            return const SignupPage();
+                                            return SignupPage(userModel: widget.userModel,
+                                          firebaseUser: widget.firebaseUser);
                                           },
                                         ),
                                       );

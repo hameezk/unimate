@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:unimate/models/user_model.dart';
-import 'package:unimate/pages/home_page.dart';
+import 'package:unimate/pages/user_profile.dart';
 
 class EditProfile extends StatefulWidget {
   final UserModel userModel;
@@ -155,12 +155,11 @@ class _EditProfileState extends State<EditProfile> {
             content: const Text("Profile Updated"),
           ),
         );
-        Navigator.popUntil(context, (route) => route.isFirst);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) {
-              return HomePage(
+              return UserProfile(
                   userModel: widget.userModel,
                   firebaseUser: widget.firebaseUser);
             },
@@ -212,78 +211,76 @@ class _EditProfileState extends State<EditProfile> {
                 ? Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 40.0, vertical: 20),
-                    child: Flexible(
-                      child: Column(
-                        children: [
-                          TextField(
-                            controller: fullNameController,
-                            decoration: const InputDecoration(
-                                labelText: "Full name:",
-                                hintText: "Enter full name"),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          (widget.userModel.role == "Student")
-                              ? TextField(
-                                  controller: idDesgController,
-                                  decoration: const InputDecoration(
-                                      labelText: "Student ID:",
-                                      hintText: "Enter student ID:"),
-                                )
-                              : TextField(
-                                  controller: idDesgController,
-                                  decoration: const InputDecoration(
-                                      labelText: "Designation:",
-                                      hintText: "Enter Designation:"),
-                                ),
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          Center(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: DropdownButtonHideUnderline(
-                                child: DropdownButton<String>(
-                                  isExpanded: true,
-                                  hint: const Text("Select Department"),
-                                  value: department,
-                                  items:
-                                      departments.map(buildMenuDept).toList(),
-                                  onChanged: (value) => setState(
-                                    () {
-                                      department = value;
-                                    },
-                                  ),
+                    child: Column(
+                      children: [
+                        TextField(
+                          controller: fullNameController,
+                          decoration: const InputDecoration(
+                              labelText: "Full name:",
+                              hintText: "Enter full name"),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        (widget.userModel.role == "Student")
+                            ? TextField(
+                                controller: idDesgController,
+                                decoration: const InputDecoration(
+                                    labelText: "Student ID:",
+                                    hintText: "Enter student ID:"),
+                              )
+                            : TextField(
+                                controller: idDesgController,
+                                decoration: const InputDecoration(
+                                    labelText: "Designation:",
+                                    hintText: "Enter Designation:"),
+                              ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        Center(
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 20),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton<String>(
+                                isExpanded: true,
+                                hint: const Text("Select Department"),
+                                value: department,
+                                items:
+                                    departments.map(buildMenuDept).toList(),
+                                onChanged: (value) => setState(
+                                  () {
+                                    department = value;
+                                  },
                                 ),
                               ),
                             ),
                           ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Center(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: DropdownButtonHideUnderline(
-                                child: DropdownButton<String>(
-                                  isExpanded: true,
-                                  hint: const Text("Select Role"),
-                                  value: role,
-                                  items: roles.map(buildMenuItem).toList(),
-                                  onChanged: (value) => setState(
-                                    () {
-                                      role = value;
-                                    },
-                                  ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Center(
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 20),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton<String>(
+                                isExpanded: true,
+                                hint: const Text("Select Role"),
+                                value: role,
+                                items: roles.map(buildMenuItem).toList(),
+                                onChanged: (value) => setState(
+                                  () {
+                                    role = value;
+                                  },
                                 ),
                               ),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   )
                 : Container(),

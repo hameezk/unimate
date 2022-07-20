@@ -11,11 +11,17 @@ import 'package:unimate/models/user_model.dart';
 import 'package:unimate/pages/home_page.dart';
 
 class CompleteProfile extends StatefulWidget {
+  final UserModel NewUserModel;
+  final User NewFirebaseUser;
   final UserModel userModel;
   final User firebaseUser;
 
   const CompleteProfile(
-      {Key? key, required this.userModel, required this.firebaseUser})
+      {Key? key,
+      required this.NewUserModel,
+      required this.NewFirebaseUser,
+      required this.userModel,
+      required this.firebaseUser})
       : super(key: key);
 
   @override
@@ -133,7 +139,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
   void uploadData() async {
     UploadTask uploadTask = FirebaseStorage.instance
         .ref("profilepictures")
-        .child(widget.userModel.uid.toString())
+        .child(widget.NewUserModel.uid.toString())
         .putFile(imageFile!);
 
     TaskSnapshot snapshot = await uploadTask;
@@ -142,15 +148,15 @@ class _CompleteProfileState extends State<CompleteProfile> {
     String fullname = fullNameController.text.trim();
     String idDesg = idDesgController.text.trim();
 
-    widget.userModel.fullName = fullname;
-    widget.userModel.profilePic = imageUrl;
-    widget.userModel.idDesg = idDesg;
-    widget.userModel.department = department;
+    widget.NewUserModel.fullName = fullname;
+    widget.NewUserModel.profilePic = imageUrl;
+    widget.NewUserModel.idDesg = idDesg;
+    widget.NewUserModel.department = department;
 
     await FirebaseFirestore.instance
         .collection("users")
-        .doc(widget.userModel.uid)
-        .set(widget.userModel.toMap())
+        .doc(widget.NewUserModel.uid)
+        .set(widget.NewUserModel.toMap())
         .then(
       (value) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -211,53 +217,51 @@ class _CompleteProfileState extends State<CompleteProfile> {
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 40.0, vertical: 20),
-              child: Flexible(
-                child: Column(
-                  children: [
-                    TextField(
-                      controller: fullNameController,
-                      decoration: const InputDecoration(
-                          labelText: "Full name:", hintText: "Enter full name"),
-                    ),
-                    (widget.userModel.role == "Student")
-                        ? TextField(
-                            controller: idDesgController,
-                            decoration: const InputDecoration(
-                                labelText: "Student ID:",
-                                hintText: "Enter student ID:"),
-                          )
-                        : TextField(
-                            controller: idDesgController,
-                            decoration: const InputDecoration(
-                                labelText: "Designation:",
-                                hintText: "Enter Designation:"),
-                          ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    Center(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton<String>(
-                            isExpanded: true,
-                            hint: const Text("Select Department"),
-                            value: department,
-                            items: departments.map(buildMenuDept).toList(),
-                            onChanged: (value) => setState(
-                              () {
-                                department = value;
-                              },
-                            ),
+              child: Column(
+                children: [
+                  TextField(
+                    controller: fullNameController,
+                    decoration: const InputDecoration(
+                        labelText: "Full name:", hintText: "Enter full name"),
+                  ),
+                  (widget.NewUserModel.role == "Student")
+                      ? TextField(
+                          controller: idDesgController,
+                          decoration: const InputDecoration(
+                              labelText: "Student ID:",
+                              hintText: "Enter student ID:"),
+                        )
+                      : TextField(
+                          controller: idDesgController,
+                          decoration: const InputDecoration(
+                              labelText: "Designation:",
+                              hintText: "Enter Designation:"),
+                        ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          isExpanded: true,
+                          hint: const Text("Select Department"),
+                          value: department,
+                          items: departments.map(buildMenuDept).toList(),
+                          onChanged: (value) => setState(
+                            () {
+                              department = value;
+                            },
                           ),
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                ],
               ),
             ),
             CupertinoButton(

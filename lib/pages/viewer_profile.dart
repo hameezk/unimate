@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:unimate/models/user_model.dart';
 import 'package:unimate/pages/edit_target_user.dart';
 
+import '../widgets/offered_courses.dart';
+
 class ViewProfile extends StatefulWidget {
   final UserModel targetUserModel;
   final UserModel userModel;
@@ -26,7 +28,7 @@ class _ViewProfileState extends State<ViewProfile> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         elevation: 0.0,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Theme.of(context).canvasColor,
         actions: [
           (widget.userModel.role == "Admin")
               ? IconButton(
@@ -49,7 +51,7 @@ class _ViewProfileState extends State<ViewProfile> {
               : Container(),
         ],
       ),
-      extendBodyBehindAppBar: true,
+      // extendBodyBehindAppBar: true,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -57,9 +59,12 @@ class _ViewProfileState extends State<ViewProfile> {
               padding:
                   const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0),
               alignment: Alignment.bottomLeft,
-              height: 190,
+              height: 100,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.only(
+                  bottomRight: Radius.circular(20),
+                  bottomLeft: Radius.circular(20),
+                ),
                 color: Theme.of(context).canvasColor,
               ),
               child: Padding(
@@ -222,9 +227,19 @@ class _ViewProfileState extends State<ViewProfile> {
                             ),
                           ),
                         ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Text(
+                            "Department: ${widget.targetUserModel.department}",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
                         (widget.targetUserModel.role == "Instructor")
                             ? Column(
-                                mainAxisSize: MainAxisSize.min,
                                 children: [
                                   ListTile(
                                     title: Text(
@@ -236,109 +251,82 @@ class _ViewProfileState extends State<ViewProfile> {
                                       ),
                                     ),
                                   ),
-                                  const Padding(
-                                    padding: EdgeInsets.all(5.0),
-                                    child: ListTile(
-                                      isThreeLine: true,
-                                      title: Text("Course 1"),
-                                      subtitle: Text(
-                                          "<Day><Time-Time>\n<Day><Time-Time>"),
-                                      trailing: Text("<Venue>"),
-                                    ),
+                                  OfferedCourses(
+                                    offeredCourseIds:
+                                        widget.targetUserModel.courses ?? [],
                                   ),
-                                  const Padding(
-                                    padding: EdgeInsets.all(5.0),
-                                    child: ListTile(
-                                      isThreeLine: true,
-                                      title: Text("Course 2"),
-                                      subtitle: Text(
-                                          "<Day><Time-Time>\n<Day><Time-Time>"),
-                                      trailing: Text("<Venue>"),
-                                    ),
-                                  ),
-                                  const Padding(
-                                    padding: EdgeInsets.all(5.0),
-                                    child: ListTile(
-                                      isThreeLine: true,
-                                      title: Text("Course 3"),
-                                      subtitle: Text(
-                                          "<Day><Time-Time>\n<Day><Time-Time>"),
-                                      trailing: Text("<Venue>"),
-                                    ),
-                                  )
                                 ],
                               )
                             : Container(),
-                        (widget.userModel.role != "Student")
-                            ? ((widget.targetUserModel.role == "Student"))
-                                ? Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      ListTile(
-                                        title: Text(
-                                          "Enrolled Courses:",
-                                          style: TextStyle(
-                                            color:
-                                                Theme.of(context).errorColor,
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                      ),
-                                      const Padding(
-                                        padding: EdgeInsets.all(5.0),
-                                        child: ListTile(
-                                          isThreeLine: true,
-                                          title: Text("Course 1"),
-                                          subtitle: Text(
-                                              "<Day><Time-Time>\n<Day><Time-Time>"),
-                                          trailing: Text("<Venue>"),
-                                        ),
-                                      ),
-                                      const Padding(
-                                        padding: EdgeInsets.all(5.0),
-                                        child: ListTile(
-                                          isThreeLine: true,
-                                          title: Text("Course 2"),
-                                          subtitle: Text(
-                                              "<Day><Time-Time>\n<Day><Time-Time>"),
-                                          trailing: Text("<Venue>"),
-                                        ),
-                                      ),
-                                      const Padding(
-                                        padding: EdgeInsets.all(5.0),
-                                        child: ListTile(
-                                          isThreeLine: true,
-                                          title: Text("Course 3"),
-                                          subtitle: Text(
-                                              "<Day><Time-Time>\n<Day><Time-Time>"),
-                                          trailing: Text("<Venue>"),
-                                        ),
-                                      ),
-                                      const Padding(
-                                        padding: EdgeInsets.all(5.0),
-                                        child: ListTile(
-                                          isThreeLine: true,
-                                          title: Text("Course 4"),
-                                          subtitle: Text(
-                                              "<Day><Time-Time>\n<Day><Time-Time>"),
-                                          trailing: Text("<Venue>"),
-                                        ),
-                                      ),
-                                      const Padding(
-                                        padding: EdgeInsets.all(5.0),
-                                        child: ListTile(
-                                          isThreeLine: true,
-                                          title: Text("Course 5"),
-                                          subtitle: Text(
-                                              "<Day><Time-Time>\n<Day><Time-Time>"),
-                                          trailing: Text("<Venue>"),
-                                        ),
-                                      )
-                                    ],
-                                  )
-                                : Container()
-                            : Container(),
+                        // (widget.userModel.role != "Student")
+                        //     ? ((widget.targetUserModel.role == "Student"))
+                        //         ? Column(
+                        //             mainAxisSize: MainAxisSize.min,
+                        //             children: [
+                        //               ListTile(
+                        //                 title: Text(
+                        //                   "Enrolled Courses:",
+                        //                   style: TextStyle(
+                        //                     color: Theme.of(context).errorColor,
+                        //                     fontSize: 20,
+                        //                     fontWeight: FontWeight.w700,
+                        //                   ),
+                        //                 ),
+                        //               ),
+                        //               const Padding(
+                        //                 padding: EdgeInsets.all(5.0),
+                        //                 child: ListTile(
+                        //                   isThreeLine: true,
+                        //                   title: Text("Course 1"),
+                        //                   subtitle: Text(
+                        //                       "<Day><Time-Time>\n<Day><Time-Time>"),
+                        //                   trailing: Text("<Venue>"),
+                        //                 ),
+                        //               ),
+                        //               const Padding(
+                        //                 padding: EdgeInsets.all(5.0),
+                        //                 child: ListTile(
+                        //                   isThreeLine: true,
+                        //                   title: Text("Course 2"),
+                        //                   subtitle: Text(
+                        //                       "<Day><Time-Time>\n<Day><Time-Time>"),
+                        //                   trailing: Text("<Venue>"),
+                        //                 ),
+                        //               ),
+                        //               const Padding(
+                        //                 padding: EdgeInsets.all(5.0),
+                        //                 child: ListTile(
+                        //                   isThreeLine: true,
+                        //                   title: Text("Course 3"),
+                        //                   subtitle: Text(
+                        //                       "<Day><Time-Time>\n<Day><Time-Time>"),
+                        //                   trailing: Text("<Venue>"),
+                        //                 ),
+                        //               ),
+                        //               const Padding(
+                        //                 padding: EdgeInsets.all(5.0),
+                        //                 child: ListTile(
+                        //                   isThreeLine: true,
+                        //                   title: Text("Course 4"),
+                        //                   subtitle: Text(
+                        //                       "<Day><Time-Time>\n<Day><Time-Time>"),
+                        //                   trailing: Text("<Venue>"),
+                        //                 ),
+                        //               ),
+                        //               const Padding(
+                        //                 padding: EdgeInsets.all(5.0),
+                        //                 child: ListTile(
+                        //                   isThreeLine: true,
+                        //                   title: Text("Course 5"),
+                        //                   subtitle: Text(
+                        //                       "<Day><Time-Time>\n<Day><Time-Time>"),
+                        //                   trailing: Text("<Venue>"),
+                        //                 ),
+                        //               )
+                        //             ],
+                        //           )
+                        //         : Container()
+                            // : Container(),
                       ],
                     ),
                   ),

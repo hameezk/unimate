@@ -6,7 +6,12 @@ import 'package:unimate/models/user_model.dart';
 import 'package:unimate/pages/complete_profile.dart';
 
 class SignupPage extends StatefulWidget {
-  const SignupPage({Key? key}) : super(key: key);
+  final UserModel userModel;
+  final User firebaseUser;
+
+  const SignupPage(
+      {Key? key, required this.userModel, required this.firebaseUser})
+      : super(key: key);
 
   @override
   _SignupPageState createState() => _SignupPageState();
@@ -101,7 +106,11 @@ class _SignupPageState extends State<SignupPage> {
             MaterialPageRoute(
               builder: (context) {
                 return CompleteProfile(
-                    userModel: newUser, firebaseUser: credentials!.user!);
+                  NewUserModel: newUser,
+                  NewFirebaseUser: credentials!.user!,
+                  firebaseUser: widget.firebaseUser,
+                  userModel: widget.userModel,
+                );
               },
             ),
           );

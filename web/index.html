@@ -42,45 +42,33 @@
 <body>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
   <script type="module">
-
-    import { initializeApp } from "../firebase/app";
-    import { getAuth } from "../firebase/auth";
-    import { getFirestore } from "../firebase/firestore";
-    import { getStorage } from "../firebase/storage";
-    
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-analytics.js";
+    import { getAuth } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-auth.js";
+    import { getFirestore } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-firestore.js";
+    import { getStorage } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-storage.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
   
-      var firebaseConfig = {
-          apiKey: "AIzaSyDP0wdaPJSoziyA9ZLe2saHMxaJizxxbjA",
-          authDomain: "unimate-63438.firebaseapp.com",
-          projectId: "unimate-63438",
-          storageBucket: "unimate-63438.appspot.com",
-          messagingSenderId: "730733691918",
-          appId: "1:730733691918:web:2de2171afe7b6ef45ca85f",
-          measurementId: "G-PYSWQEP63M"
-        };
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyDP0wdaPJSoziyA9ZLe2saHMxaJizxxbjA",
+      authDomain: "unimate-63438.firebaseapp.com",
+      projectId: "unimate-63438",
+      storageBucket: "unimate-63438.appspot.com",
+      messagingSenderId: "730733691918",
+      appId: "1:730733691918:web:36b6bf5924ed941a5ca85f",
+      measurementId: "G-XPPNCK087H"
+    };
   
-      const app = initializeApp(firebaseConfig);
-      // const auth = getAuth(app);
-      // const db = getFirestore(app);
-      // const storage = getStorage(app);
-  
-  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const analytics = getAnalytics(app);
+    const db = getFirestore(app);
   </script>
-  <script>
-    window.addEventListener('load', function(ev) {
-      // Download main.dart.js
-      _flutter.loader.loadEntrypoint({
-        serviceWorker: {
-          serviceWorkerVersion: serviceWorkerVersion,
-        }
-      }).then(function(engineInitializer) {
-        return engineInitializer.initializeEngine();
-      }).then(function(appRunner) {
-        return appRunner.runApp();
-      });
-    });
-  </script>
-  
   <!-- <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-firestore.js"></script>

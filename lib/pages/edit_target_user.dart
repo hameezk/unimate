@@ -6,10 +6,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:unimate/models/course_model.dart';
 import 'package:unimate/models/user_model.dart';
-import 'package:unimate/pages/home_page.dart';
+import 'package:unimate/pages/viewer_profile.dart';
 
 class EditTargetUser extends StatefulWidget {
+  static List courses = [];
   final UserModel userModel;
   final UserModel targetUser;
   final User firebaseUser;
@@ -145,6 +147,7 @@ class _EditTargetUserState extends State<EditTargetUser> {
 
     widget.targetUser.role = role;
     widget.targetUser.department = department;
+    widget.targetUser.courses = CourseModel.assignedCcourses;
 
     await FirebaseFirestore.instance
         .collection("users")
@@ -159,14 +162,15 @@ class _EditTargetUserState extends State<EditTargetUser> {
             content: const Text("Profile Updated"),
           ),
         );
-        Navigator.popUntil(context, (route) => route.isFirst);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) {
-              return HomePage(
-                  userModel: widget.userModel,
-                  firebaseUser: widget.firebaseUser);
+              return ViewProfile(
+                userModel: widget.userModel,
+                firebaseUser: widget.firebaseUser,
+                targetUserModel: widget.targetUser,
+              );
             },
           ),
         );
@@ -176,6 +180,7 @@ class _EditTargetUserState extends State<EditTargetUser> {
 
   @override
   Widget build(BuildContext context) {
+    EditTargetUser.courses = widget.targetUser.courses ?? [];
     (role == "") ? role = widget.targetUser.role : null;
     (department == "") ? department = widget.targetUser.department : null;
     fullNameController.text = widget.targetUser.fullName.toString();
@@ -216,81 +221,95 @@ class _EditTargetUserState extends State<EditTargetUser> {
                 ? Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 40.0, vertical: 20),
-                    child: Flexible(
-                      child: Column(
-                        children: [
-                          TextField(
-                            controller: fullNameController,
-                            decoration: const InputDecoration(
-                                labelText: "Full name:",
-                                hintText: "Enter full name"),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          (widget.targetUser.role == "Student")
-                              ? TextField(
-                                  controller: idDesgController,
-                                  decoration: const InputDecoration(
-                                      labelText: "Student ID:",
-                                      hintText: "Enter student ID:"),
-                                )
-                              : TextField(
-                                  controller: idDesgController,
-                                  decoration: const InputDecoration(
-                                      labelText: "Designation:",
-                                      hintText: "Enter Designation:"),
-                                ),
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          Center(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: DropdownButtonHideUnderline(
-                                child: DropdownButton<String>(
-                                  isExpanded: true,
-                                  hint: const Text("Select Department"),
-                                  value: department,
-                                  items:
-                                      departments.map(buildMenuDept).toList(),
-                                  onChanged: (value) => setState(
-                                    () {
-                                      department = value;
-                                    },
-                                  ),
+                    child: Column(
+                      children: [
+                        TextField(
+                          controller: fullNameController,
+                          decoration: const InputDecoration(
+                              labelText: "Full name:",
+                              hintText: "Enter full name"),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        (widget.targetUser.role == "Student")
+                            ? TextField(
+                                controller: idDesgController,
+                                decoration: const InputDecoration(
+                                    labelText: "Student ID:",
+                                    hintText: "Enter student ID:"),
+                              )
+                            : TextField(
+                                controller: idDesgController,
+                                decoration: const InputDecoration(
+                                    labelText: "Designation:",
+                                    hintText: "Enter Designation:"),
+                              ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton<String>(
+                                isExpanded: true,
+                                hint: const Text("Select Department"),
+                                value: department,
+                                items: departments.map(buildMenuDept).toList(),
+                                onChanged: (value) => setState(
+                                  () {
+                                    department = value;
+                                  },
                                 ),
                               ),
                             ),
                           ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Center(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: DropdownButtonHideUnderline(
-                                child: DropdownButton<String>(
-                                  isExpanded: true,
-                                  hint: const Text("Select Role"),
-                                  value: role,
-                                  items: roles.map(buildMenuItem).toList(),
-                                  onChanged: (value) => setState(
-                                    () {
-                                      role = value;
-                                    },
-                                  ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton<String>(
+                                isExpanded: true,
+                                hint: const Text("Select Role"),
+                                value: role,
+                                items: roles.map(buildMenuItem).toList(),
+                                onChanged: (value) => setState(
+                                  () {
+                                    role = value;
+                                  },
                                 ),
                               ),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   )
                 : Container(),
+            const SizedBox(
+              height: 10,
+            ),
+            (widget.targetUser.role == 'Instructor')
+                ? CupertinoButton(
+                    color: Theme.of(context).canvasColor,
+                    onPressed: () {
+                      addCourses();
+                    },
+                    child: const Text(
+                      "Add Courses",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  )
+                : Container(
+                    height: 0,
+                  ),
             const SizedBox(
               height: 30,
             ),
@@ -327,4 +346,127 @@ class _EditTargetUserState extends State<EditTargetUser> {
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
       );
+
+  addCourses() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Add Courses'),
+          content: StreamBuilder(
+            stream:
+                FirebaseFirestore.instance.collection("courses").snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.active) {
+                if (snapshot.hasData) {
+                  QuerySnapshot dataSnapshot = snapshot.data as QuerySnapshot;
+                  if (dataSnapshot.docs.isNotEmpty) {
+                    return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: dataSnapshot.docs.length,
+                        itemBuilder: (context, index) {
+                          Map<String, dynamic> courseMap =
+                              dataSnapshot.docs[index].data()
+                                  as Map<String, dynamic>;
+                          CourseModel courseModel =
+                              CourseModel.fromMap(courseMap);
+                          if (dataSnapshot.docs.isNotEmpty) {
+                            return CheckboxWidget(
+                              courseModel: courseModel,
+                            );
+                          } else {
+                            return Container();
+                          }
+                        });
+                  } else {
+                    return const Center(
+                      child: Text(
+                        "No results found!",
+                        style: TextStyle(
+                          color: Colors.blueGrey,
+                        ),
+                      ),
+                    );
+                  }
+                } else if (snapshot.hasError) {
+                  return const Center(
+                    child: Text(
+                      "An error occoured!",
+                      style: TextStyle(
+                        color: Colors.blueGrey,
+                      ),
+                    ),
+                  );
+                } else {
+                  return const Center(
+                    child: Text(
+                      "No results found!",
+                      style: TextStyle(
+                        color: Colors.blueGrey,
+                      ),
+                    ),
+                  );
+                }
+              } else {
+                return const Center(child: CircularProgressIndicator());
+              }
+            },
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                CourseModel.assignedCcourses = EditTargetUser.courses;
+                print(CourseModel.assignedCcourses);
+                Navigator.pop(context);
+              },
+              child: Text('Submit'),
+            )
+          ],
+        );
+      },
+    );
+  }
+}
+
+class CheckboxWidget extends StatefulWidget {
+  final CourseModel courseModel;
+  CheckboxWidget({Key? key, required this.courseModel}) : super(key: key);
+
+  @override
+  State<CheckboxWidget> createState() => _CheckboxWidgetState();
+}
+
+class _CheckboxWidgetState extends State<CheckboxWidget> {
+  List courses = [];
+  bool? _value;
+  @override
+  Widget build(BuildContext context) {
+    _value = EditTargetUser.courses.contains(widget.courseModel.courseId);
+    return CheckboxListTile(
+      title: Text(widget.courseModel.courseTitle ?? ''),
+      subtitle: Text(widget.courseModel.courseTime ?? ''),
+      // secondary: Text(courseModel.courseVenue ?? ''),
+      autofocus: false,
+      selected: _value ?? false,
+      value: _value,
+      onChanged: (bool? value) {
+        setState(() {
+          _value = value;
+          if (value == true) {
+            EditTargetUser.courses.add(widget.courseModel.courseId);
+          } else {
+            if (EditTargetUser.courses.contains(widget.courseModel.courseId)) {
+              EditTargetUser.courses.remove(widget.courseModel.courseId);
+            }
+          }
+        });
+      },
+    );
+  }
 }

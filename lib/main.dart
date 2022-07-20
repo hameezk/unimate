@@ -20,11 +20,12 @@ void main() async {
     await Firebase.initializeApp(
       options: const FirebaseOptions(
         apiKey: 'AIzaSyDP0wdaPJSoziyA9ZLe2saHMxaJizxxbjA',
-        appId: "1:730733691918:web:2de2171afe7b6ef45ca85f",
+        appId: "1:730733691918:web:36b6bf5924ed941a5ca85f",
         messagingSenderId: '730733691918',
         projectId: 'unimate-63438',
         authDomain: "unimate-63438.firebaseapp.com",
         storageBucket: "unimate-63438.appspot.com",
+        measurementId: "G-XPPNCK087H",
       ),
     );
   } else {

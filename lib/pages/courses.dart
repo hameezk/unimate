@@ -1,0 +1,27 @@
+import 'package:flutter/material.dart';
+
+class Courses extends StatefulWidget {
+  Courses({Key? key}) : super(key: key);
+
+  @override
+  State<Courses> createState() => _CoursesState();
+}
+
+class _CoursesState extends State<Courses> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Courses'),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(
+              Icons.add,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

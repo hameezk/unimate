@@ -8,6 +8,8 @@ import 'package:unimate/pages/edit_profile.dart';
 import 'package:unimate/pages/home_page.dart';
 import 'package:unimate/widgets/navbar.dart';
 
+import '../widgets/offered_courses.dart';
+
 class UserProfile extends StatefulWidget {
   final UserModel userModel;
   final User firebaseUser;
@@ -68,7 +70,7 @@ class _UserProfileState extends State<UserProfile> {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
           elevation: 0.0,
-          backgroundColor: Colors.transparent,
+          backgroundColor: Theme.of(context).canvasColor,
           actions: [
             (widget.userModel.role == "Admin")
                 ? IconButton(
@@ -89,7 +91,6 @@ class _UserProfileState extends State<UserProfile> {
                 : Container(),
           ],
         ),
-        extendBodyBehindAppBar: true,
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -97,7 +98,7 @@ class _UserProfileState extends State<UserProfile> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0),
                 alignment: Alignment.bottomLeft,
-                height: 150,
+                height: 100,
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(30),
@@ -307,9 +308,19 @@ class _UserProfileState extends State<UserProfile> {
                   ],
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Text(
+                  "Department: ${widget.userModel.department}",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
+                ),
+              ),
               (widget.userModel.role == "Instructor")
                   ? Column(
-                      mainAxisSize: MainAxisSize.min,
                       children: [
                         ListTile(
                           title: Text(
@@ -321,106 +332,79 @@ class _UserProfileState extends State<UserProfile> {
                             ),
                           ),
                         ),
-                        const Padding(
-                          padding: EdgeInsets.all(5.0),
-                          child: ListTile(
-                            isThreeLine: true,
-                            title: Text("Course 1"),
-                            subtitle:
-                                Text("<Day><Time-Time>\n<Day><Time-Time>"),
-                            trailing: Text("<Venue>"),
-                          ),
+                        OfferedCourses(
+                          offeredCourseIds: widget.userModel.courses ?? [],
                         ),
-                        const Padding(
-                          padding: EdgeInsets.all(5.0),
-                          child: ListTile(
-                            isThreeLine: true,
-                            title: Text("Course 2"),
-                            subtitle:
-                                Text("<Day><Time-Time>\n<Day><Time-Time>"),
-                            trailing: Text("<Venue>"),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.all(5.0),
-                          child: ListTile(
-                            isThreeLine: true,
-                            title: Text("Course 3"),
-                            subtitle:
-                                Text("<Day><Time-Time>\n<Day><Time-Time>"),
-                            trailing: Text("<Venue>"),
-                          ),
-                        )
                       ],
                     )
                   : Container(),
-              ((widget.userModel.role == "Student"))
-                  ? Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        ListTile(
-                          title: Text(
-                            "Enrolled Courses:",
-                            style: TextStyle(
-                              color: Theme.of(context).errorColor,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.all(5.0),
-                          child: ListTile(
-                            isThreeLine: true,
-                            title: Text("Course 1"),
-                            subtitle:
-                                Text("<Day><Time-Time>\n<Day><Time-Time>"),
-                            trailing: Text("<Venue>"),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.all(5.0),
-                          child: ListTile(
-                            isThreeLine: true,
-                            title: Text("Course 2"),
-                            subtitle:
-                                Text("<Day><Time-Time>\n<Day><Time-Time>"),
-                            trailing: Text("<Venue>"),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.all(5.0),
-                          child: ListTile(
-                            isThreeLine: true,
-                            title: Text("Course 3"),
-                            subtitle:
-                                Text("<Day><Time-Time>\n<Day><Time-Time>"),
-                            trailing: Text("<Venue>"),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.all(5.0),
-                          child: ListTile(
-                            isThreeLine: true,
-                            title: Text("Course 4"),
-                            subtitle:
-                                Text("<Day><Time-Time>\n<Day><Time-Time>"),
-                            trailing: Text("<Venue>"),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.all(5.0),
-                          child: ListTile(
-                            isThreeLine: true,
-                            title: Text("Course 5"),
-                            subtitle:
-                                Text("<Day><Time-Time>\n<Day><Time-Time>"),
-                            trailing: Text("<Venue>"),
-                          ),
-                        )
-                      ],
-                    )
-                  : Container(),
+              // ((widget.userModel.role == "Student"))
+              //     ? Column(
+              //         mainAxisSize: MainAxisSize.min,
+              //         children: [
+              //           ListTile(
+              //             title: Text(
+              //               "Enrolled Courses:",
+              //               style: TextStyle(
+              //                 color: Theme.of(context).errorColor,
+              //                 fontSize: 20,
+              //                 fontWeight: FontWeight.w700,
+              //               ),
+              //             ),
+              //           ),
+              //           const Padding(
+              //             padding: EdgeInsets.all(5.0),
+              //             child: ListTile(
+              //               isThreeLine: true,
+              //               title: Text("Course 1"),
+              //               subtitle:
+              //                   Text("<Day><Time-Time>\n<Day><Time-Time>"),
+              //               trailing: Text("<Venue>"),
+              //             ),
+              //           ),
+              //           const Padding(
+              //             padding: EdgeInsets.all(5.0),
+              //             child: ListTile(
+              //               isThreeLine: true,
+              //               title: Text("Course 2"),
+              //               subtitle:
+              //                   Text("<Day><Time-Time>\n<Day><Time-Time>"),
+              //               trailing: Text("<Venue>"),
+              //             ),
+              //           ),
+              //           const Padding(
+              //             padding: EdgeInsets.all(5.0),
+              //             child: ListTile(
+              //               isThreeLine: true,
+              //               title: Text("Course 3"),
+              //               subtitle:
+              //                   Text("<Day><Time-Time>\n<Day><Time-Time>"),
+              //               trailing: Text("<Venue>"),
+              //             ),
+              //           ),
+              //           const Padding(
+              //             padding: EdgeInsets.all(5.0),
+              //             child: ListTile(
+              //               isThreeLine: true,
+              //               title: Text("Course 4"),
+              //               subtitle:
+              //                   Text("<Day><Time-Time>\n<Day><Time-Time>"),
+              //               trailing: Text("<Venue>"),
+              //             ),
+              //           ),
+              //           const Padding(
+              //             padding: EdgeInsets.all(5.0),
+              //             child: ListTile(
+              //               isThreeLine: true,
+              //               title: Text("Course 5"),
+              //               subtitle:
+              //                   Text("<Day><Time-Time>\n<Day><Time-Time>"),
+              //               trailing: Text("<Venue>"),
+              //             ),
+              //           )
+              //         ],
+              //       )
+              //     : Container(),
             ],
           ),
         ),
